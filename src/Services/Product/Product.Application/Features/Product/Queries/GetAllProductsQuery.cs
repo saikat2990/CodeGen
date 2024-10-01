@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Contracts.ResponseModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,8 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, A
     public async Task<ApiResponse<IEnumerable<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken ctn)
     {
         var products = await _uow.GetRepository<Domain.Entities.Product, int>()
-            .GetAll()
-            .Select(p => _mapper.Map<ProductResponse>(p))
+            .Query()
+            .ProjectTo<ProductResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(ctn);
 
         return ApiResponse<IEnumerable<ProductResponse>>.Success(products);

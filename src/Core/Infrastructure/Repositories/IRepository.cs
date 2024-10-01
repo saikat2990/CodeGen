@@ -5,7 +5,7 @@ namespace Infrastructure.Repositories;
 public interface IRepository<TEntity, TKey> where TEntity : class
 {
     IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression);
-    IQueryable<TEntity> GetAll();
+    IQueryable<TEntity> Query();
     Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression);
     Task<TEntity?> GetAsync(TKey id);
 

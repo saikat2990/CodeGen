@@ -15,7 +15,7 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntit
         _table = _context.Set<TEntity>();
     }
 
-    public IQueryable<TEntity> GetAll() => _table;
+    public IQueryable<TEntity> Query() => _table;
 
     public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression) => _table.Where(expression);
 
