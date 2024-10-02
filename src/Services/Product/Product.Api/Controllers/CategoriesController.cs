@@ -10,7 +10,7 @@ public class CategoriesController : BaseController
     public async Task<IActionResult> CreateCategory(CreateCategoryCommand command)
     {
         var categoryId = await Sender.Send(command);
-        return CreatedAtAction(nameof(GetCategory), new { id = categoryId }, null);
+        return CreatedAtAction(nameof(GetCategoryById), new { id = categoryId }, null);
     }
 
     [HttpGet]
@@ -21,7 +21,7 @@ public class CategoriesController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCategory(int id)
+    public async Task<IActionResult> GetCategoryById(int id)
     {
         var category = await Sender.Send(new GetCategoryByIdQuery { Id = id });
         return Ok(category);
