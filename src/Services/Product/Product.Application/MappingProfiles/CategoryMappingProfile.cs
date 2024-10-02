@@ -11,5 +11,7 @@ public class CategoryMappingProfile : Profile
     {
         CreateMap<CreateCategoryCommand, Category>();
         CreateMap<Category, CategoryResponse>();
+
+        CreateMap<UpdateCategoryCommand, Category>().ForMember(x => x.Id, x => x.Ignore());
     }
 }
