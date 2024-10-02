@@ -16,7 +16,7 @@ public class ProductsController : BaseController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        var product = await Sender.Send(new GetProductQuery { Id = id });
+        var product = await Sender.Send(new GetProductByIdQuery { Id = id });
         return Ok(product);
     }
 
