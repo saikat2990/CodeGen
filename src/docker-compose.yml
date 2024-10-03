@@ -1,0 +1,24 @@
+services:
+  product.api:
+    image: ${DOCKER_REGISTRY-}productapi
+    container_name: product.api
+    build:
+      context: .
+      dockerfile: Services/Product/Product.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  product.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: product.database
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong(!)Password2024
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:

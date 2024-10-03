@@ -1,3 +1,4 @@
+﻿using Product.Api.Extensions;
 using Product.Application;
 using Product.Infrastructure;
 
@@ -21,6 +22,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();
