@@ -27,18 +27,18 @@ public class ProductsController : BaseController
         return CreatedAtAction(nameof(GetById), new { id = response.Data }, null);
     }
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> UpdateProduct(int id, UpdateProductCommand command)
-    //{
-    //    command.Id = id;
-    //    await Sender.Send(command);
-    //    return NoContent();
-    //}
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(int id, UpdateProductCommand command)
+    {
+        command.Id = id;
+        await Sender.Send(command);
+        return NoContent();
+    }
 
-    //[HttpDelete("{id}")]
-    //public async Task<IActionResult> DeleteProduct(int id)
-    //{
-    //    await Sender.Send(new DeleteProductCommand { Id = id });
-    //    return NoContent();
-    //}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(int id)
+    {
+        await Sender.Send(new DeleteProductCommand { Id = id });
+        return NoContent();
+    }
 }

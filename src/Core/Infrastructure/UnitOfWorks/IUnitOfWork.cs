@@ -6,6 +6,6 @@ namespace Infrastructure.UnitOfWorks
     {
         IRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : class;
         int Save();
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken ctn);
     }
 }

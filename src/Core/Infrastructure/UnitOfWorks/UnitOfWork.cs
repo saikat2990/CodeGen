@@ -15,7 +15,7 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
     }
 
     public int Save() => _context.SaveChanges();
-    public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
+    public async Task<int> SaveAsync(CancellationToken ctn) => await _context.SaveChangesAsync(ctn);
 
     public IRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : class
     {
