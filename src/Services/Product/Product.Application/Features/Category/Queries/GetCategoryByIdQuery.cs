@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Product.Application.Interfaces;
 
 namespace Product.Application.Features.Category.Queries;
@@ -12,21 +11,13 @@ public class GetCategoryByIdQuery : IRequest<ApiResponse<CategoryResponse>>
     public int Id { get; set; }
 }
 
-public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, ApiResponse<CategoryResponse>>
+public class GetCategoryByIdQueryHandler : BaseRequestHandler<GetCategoryByIdQuery, ApiResponse<CategoryResponse>, Domain.Entities.Category, int>
 {
-    private readonly IProductUnitOfWork _uow;
-    private readonly IMapper _mapper;
+    public GetCategoryByIdQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper) {}
 
-    public GetCategoryByIdQueryHandler(IProductUnitOfWork uow, IMapper mapper)
+    public override async Task<ApiResponse<CategoryResponse>> HandleRequest(GetCategoryByIdQuery request, CancellationToken ctn)
     {
-        _uow = uow;
-        _mapper = mapper;
-    }
-
-    public async Task<ApiResponse<CategoryResponse>> Handle(GetCategoryByIdQuery request, CancellationToken ctn)
-    {
-        var categoryResponse = await _uow.GetRepository<Domain.Entities.Category, int>()
-            .GetAsync(request.Id);
+        var categoryResponse = await _repository.GetAsync(request.Id, ctn);
 
         return ApiResponse<CategoryResponse>.Success(_mapper.Map<CategoryResponse>(categoryResponse));
     }

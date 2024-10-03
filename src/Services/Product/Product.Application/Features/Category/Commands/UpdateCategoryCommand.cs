@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Common;
 using Product.Application.Features.Category.Queries;
@@ -7,21 +8,18 @@ using Product.Application.Interfaces;
 
 namespace Product.Application.Features.Category.Commands;
 
-public class UpdateCategoryCommand : IRequest<ApiResponse<CategoryResponse>>
+public class UpdateCategoryCommand : CategoryModel, IRequest<ApiResponse<CategoryResponse>>
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
 }
 
-public class UpdateCategoryCommandHandler : RequestHandler<UpdateCategoryCommand, ApiResponse<CategoryResponse>>
+public class UpdateCategoryCommandHandler : BaseRequestHandler<UpdateCategoryCommand, ApiResponse<CategoryResponse>, Domain.Entities.Category, int>
 {
     public UpdateCategoryCommandHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper){}
 
-    public override async Task<ApiResponse<CategoryResponse>> HandleRequest(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    public override async Task<ApiResponse<CategoryResponse>> HandleRequest(UpdateCategoryCommand request, CancellationToken ctn)
     {
-        var repo = _uow.GetRepository<Domain.Entities.Category, int>();
-        var category = await repo.GetAsync(request.Id);
+        var category = await _repository.GetAsync(request.Id, ctn);
         _mapper.Map(request, category);
 
         await _uow.SaveAsync();

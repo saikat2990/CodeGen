@@ -14,17 +14,17 @@ public class ProductsController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProduct(int id)
+    public async Task<IActionResult> GetById(int id)
     {
         var product = await Sender.Send(new GetProductByIdQuery { Id = id });
         return Ok(product);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProduct(CreateProductCommand command)
+    public async Task<IActionResult> Create(CreateProductCommand command)
     {
-        var productId = await Sender.Send(command);
-        return CreatedAtAction(nameof(GetProduct), new { id = productId }, null);
+        var response = await Sender.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = response.Data }, null);
     }
 
     //[HttpPut("{id}")]

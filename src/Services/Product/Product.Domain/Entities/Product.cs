@@ -1,9 +1,10 @@
-﻿using Product.Domain.Common;
+﻿using Contracts.Common;
 
 namespace Product.Domain.Entities;
 
-public class Product : EntityBase<int>
+public class Product : EntityAuditable, IEntity<int>
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }

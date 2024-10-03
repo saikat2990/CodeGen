@@ -15,38 +15,35 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntit
         _table = _context.Set<TEntity>();
     }
 
-    public IQueryable<TEntity> Query() => _table;
+    public IQueryable<TEntity> GetAll() => _table;
 
     public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression) => _table.Where(expression);
 
-    public async Task<TEntity?> GetAsync(TKey id) => await _table.FindAsync(id);
+    public async Task<TEntity?> GetAsync(TKey id, CancellationToken ctn) => await _table.FindAsync(id, ctn);
 
-    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression) => await _table.FirstOrDefaultAsync(expression);
+    public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression, CancellationToken ctn) => await _table.FirstOrDefaultAsync(expression, ctn);
 
-    // Create methods
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task AddAsync(TEntity entity, CancellationToken ctn)
     {
-        await _table.AddAsync(entity, cancellationToken);
+        await _table.AddAsync(entity, ctn);
     }
 
-    public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
+    public async Task BulkInsertAsync(IEnumerable<TEntity> entities, CancellationToken ctn)
     {
-        await _table.AddRangeAsync(entities, cancellationToken);
+        await _table.AddRangeAsync(entities, ctn);
     }
 
-    // Update method
     public void Update(TEntity entity)
     {
         _table.Update(entity);
     }
 
-    // Delete methods
-    public void Remove(TEntity entity)
+    public void Delete(TEntity entity)
     {
         _table.Remove(entity);
     }
 
-    public void RemoveRange(IEnumerable<TEntity> entities)
+    public void BulkDelete(IEnumerable<TEntity> entities)
     {
         _table.RemoveRange(entities);
     }

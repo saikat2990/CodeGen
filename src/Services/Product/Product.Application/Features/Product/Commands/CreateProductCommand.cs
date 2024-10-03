@@ -1,40 +1,28 @@
 ﻿using AutoMapper;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Common;
-using Product.Application.Features.Product.Queries;
 using Product.Application.Interfaces;
 
 namespace Product.Application.Features.Product.Commands;
 
-public class CreateProductCommand : IRequest<ApiResponse<int>>
+public class CreateProductCommand : ProductModel, IRequest<ApiResponse<int>>
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public decimal Price { get; set; }
-    public int Stock { get; set; }
-    public string ImageUrl { get; set; }
-    public int CategoryId { get; set; }
 }
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ApiResponse<int>>
+public class CreateProductCommandHandler : BaseRequestHandler<CreateProductCommand, ApiResponse<int>, Domain.Entities.Product, int>
 {
-    private readonly IProductUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CreateProductCommandHandler(IProductUnitOfWork productUnitOfWork, IMapper mapper)
+    public CreateProductCommandHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
-        _uow = productUnitOfWork;
-        _mapper = mapper;
     }
 
-    public async Task<ApiResponse<int>> Handle(CreateProductCommand request, CancellationToken ctn)
+    public override async Task<ApiResponse<int>> HandleRequest(CreateProductCommand request, CancellationToken ctn)
     {
-        var product = _mapper.Map<Domain.Entities.Product>(request);
-        await _uow.GetRepository<Domain.Entities.Product, int>().AddAsync(product, ctn);
+        var newProduct = _mapper.Map<Domain.Entities.Product>(request);
+        await _repository.AddAsync(newProduct, ctn);
         await _uow.SaveAsync();
 
-        return ApiResponse<int>.Success(product.Id, Constants.CreateSuccessMsg);
+        return ApiResponse<int>.Success(newProduct.Id, Constants.CreateSuccessMsg);
     }
-
 }

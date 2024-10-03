@@ -1,36 +1,27 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
+using Infrastructure.UnitOfWorks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Product.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Product.Application.Features.Product.Queries;
 
 public class GetAllProductsQuery : IRequest<ApiResponse<IEnumerable<ProductResponse>>>
 {
 }
 
-public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, ApiResponse<IEnumerable<ProductResponse>>>
+public class GetAllProductsQueryHandler : BaseRequestHandler<GetAllProductsQuery, ApiResponse<IEnumerable<ProductResponse>>, Domain.Entities.Product, int>
 {
-    private readonly IProductUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public GetAllProductsQueryHandler(IProductUnitOfWork productUnitOfWork, IMapper mapper)
+    public GetAllProductsQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
-        _uow = productUnitOfWork;
-        _mapper = mapper;
     }
 
-    public async Task<ApiResponse<IEnumerable<ProductResponse>>> Handle(GetAllProductsQuery request, CancellationToken ctn)
+    public override async Task<ApiResponse<IEnumerable<ProductResponse>>> HandleRequest(GetAllProductsQuery request, CancellationToken ctn)
     {
-        var products = await _uow.GetRepository<Domain.Entities.Product, int>()
-            .Query()
+        var products = await _repository
+            .GetAll()
             .ProjectTo<ProductResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(ctn);
 

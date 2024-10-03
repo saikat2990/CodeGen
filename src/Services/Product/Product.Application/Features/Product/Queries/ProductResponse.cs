@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Product.Application.Features.Product.Queries;
+﻿namespace Product.Application.Features.Product.Queries;
 
 public class ProductResponse
 {
@@ -14,4 +8,5 @@ public class ProductResponse
     public decimal Price { get; set; }
     public int Stock { get; set; }
     public string ImageUrl { get; set; }
+    public int CategoryId { get; set; }
 }

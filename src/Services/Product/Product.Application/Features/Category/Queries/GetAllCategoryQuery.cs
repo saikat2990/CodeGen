@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Product.Application.Interfaces;
@@ -11,23 +12,18 @@ public class GetAllCategoryQuery : IRequest<ApiResponse<IEnumerable<CategoryResp
 {
 }
 
-public class GetAllCategoryQueryHandler : IRequestHandler<GetAllCategoryQuery, ApiResponse<IEnumerable<CategoryResponse>>>
+public class GetAllCategoryQueryHandler : BaseRequestHandler<GetAllCategoryQuery, ApiResponse<IEnumerable<CategoryResponse>>, Domain.Entities.Category, int>
 {
-    private readonly IProductUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public GetAllCategoryQueryHandler(IProductUnitOfWork uow, IMapper mapper)
+    public GetAllCategoryQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
-        _uow = uow;
-        _mapper = mapper;
     }
 
-    public async Task<ApiResponse<IEnumerable<CategoryResponse>>> Handle(GetAllCategoryQuery request, CancellationToken cancellationToken)
+    public override async Task<ApiResponse<IEnumerable<CategoryResponse>>> HandleRequest(GetAllCategoryQuery request, CancellationToken ctn)
     {
-        var categories = await _uow.GetRepository<Domain.Entities.Category, int>()
-            .Query()
+        var categories = await _repository
+            .GetAll()
             .ProjectTo<CategoryResponse>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+            .ToListAsync(ctn);
 
         return ApiResponse<IEnumerable<CategoryResponse>>.Success(categories);
     }

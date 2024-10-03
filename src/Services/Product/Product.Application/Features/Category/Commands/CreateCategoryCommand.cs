@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Contracts.ResponseModels;
+using Infrastructure.RequestHandlers;
 using MediatR;
+using Product.Application.Common;
 using Product.Application.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,28 +12,21 @@ using System.Threading.Tasks;
 
 namespace Product.Application.Features.Category.Commands;
 
-public class CreateCategoryCommand : IRequest<ApiResponse<int>>
+public class CreateCategoryCommand : CategoryModel, IRequest<ApiResponse<int>>
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
 }
 
-public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, ApiResponse<int>>
+public class CreateCategoryHandler : BaseRequestHandler<CreateCategoryCommand, ApiResponse<int>, Domain.Entities.Category, int>
 {
-    private readonly IProductUnitOfWork _uow;
-    private readonly IMapper _mapper;
-
-    public CreateCategoryHandler(IProductUnitOfWork productUnitOfWork, IMapper mapper)
+    public CreateCategoryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
-        _uow = productUnitOfWork;
-        _mapper = mapper;
     }
 
-    public async Task<ApiResponse<int>> Handle(CreateCategoryCommand request, CancellationToken ctn)
+    public override async Task<ApiResponse<int>> HandleRequest(CreateCategoryCommand request, CancellationToken ctn)
     {
         var category = _mapper.Map<Domain.Entities.Category>(request);
 
-        await _uow.GetRepository<Domain.Entities.Category, int>().AddAsync(category, ctn);
+        await _repository.AddAsync(category, ctn);
         await _uow.SaveAsync();
 
         return ApiResponse<int>.Success(category.Id);
