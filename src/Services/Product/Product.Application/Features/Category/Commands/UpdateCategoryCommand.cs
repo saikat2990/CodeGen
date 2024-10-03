@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Common;
 using Product.Application.Features.Category.Queries;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Category.Commands;
 
@@ -22,7 +22,7 @@ public class UpdateCategoryCommandHandler : BaseRequestHandler<UpdateCategoryCom
         var category = await _repository.GetAsync(request.Id, ctn);
         _mapper.Map(request, category);
 
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(ctn);
         return ApiResponse<CategoryResponse>.Success(_mapper.Map<CategoryResponse>(category));
     }
 }

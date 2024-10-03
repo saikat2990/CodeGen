@@ -1,6 +1,6 @@
-﻿using Contracts.Common;
-
+﻿using Shared.Contracts;
 namespace Product.Domain.Entities;
+
 public class Category : EntityAuditable, IEntity<int>
 {
     public int Id { get; set; }

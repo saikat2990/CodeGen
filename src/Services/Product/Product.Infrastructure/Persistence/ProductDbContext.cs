@@ -1,5 +1,5 @@
-﻿using Contracts.Common;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Contracts;
 
 namespace Product.Infrastructure.Persistence;
 

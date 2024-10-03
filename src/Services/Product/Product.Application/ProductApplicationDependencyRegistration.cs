@@ -1,6 +1,4 @@
-﻿using Infrastructure.RequestHandlers;
-using Microsoft.Extensions.DependencyInjection;
-using Product.Application.MappingProfiles;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Product.Application;
 

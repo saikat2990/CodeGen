@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Product.Commands;
 

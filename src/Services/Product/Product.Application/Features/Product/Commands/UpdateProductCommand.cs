@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
-using Infrastructure.UnitOfWorks;
 using MediatR;
 using Product.Application.Common;
 using Product.Application.Features.Product.Queries;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Product.Commands;
 
@@ -25,7 +24,7 @@ public class UpdateProductCommandHandler : BaseRequestHandler<UpdateProductComma
         var productToUpdate = await _repository.GetAsync(request.Id, ctn);
         _mapper.Map(request, productToUpdate);
 
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(ctn);
         return ApiResponse<ProductResponse>.Success(_mapper.Map<ProductResponse>(productToUpdate), Constants.UpdateSuccessMsg);
     }
 }

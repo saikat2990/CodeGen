@@ -1,5 +1,5 @@
-﻿using Infrastructure.UnitOfWorks;
-using Product.Application.Interfaces;
+﻿using Product.Application.Interfaces;
+using Shared.Infrastructures.UnitOfWorks;
 
 namespace Product.Infrastructure.Persistence;
 

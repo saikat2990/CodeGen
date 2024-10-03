@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Category.Commands;
 
@@ -19,7 +19,7 @@ public class DeleteCategoryHandler : BaseRequestHandler<DeleteCategoryCommand, A
     {
         var category = await _repository.GetAsync(request.Id, ctn);
         _repository.Delete(category);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(ctn);
 
         return ApiResponse<bool>.Success(true);
     }

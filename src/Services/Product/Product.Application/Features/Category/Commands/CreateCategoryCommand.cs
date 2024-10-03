@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Common;
 using Product.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Category.Commands;
 
@@ -27,7 +22,7 @@ public class CreateCategoryHandler : BaseRequestHandler<CreateCategoryCommand, A
         var category = _mapper.Map<Domain.Entities.Category>(request);
 
         await _repository.AddAsync(category, ctn);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(ctn);
 
         return ApiResponse<int>.Success(category.Id);
     }

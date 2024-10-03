@@ -1,4 +1,4 @@
-﻿using Infrastructure.UnitOfWorks;
+﻿using Shared.Infrastructures.UnitOfWorks;
 
 namespace Product.Application.Interfaces;
 

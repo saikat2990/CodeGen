@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
-using Infrastructure.UnitOfWorks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 namespace Product.Application.Features.Product.Queries;
 
 public class GetAllProductsQuery : IRequest<ApiResponse<IEnumerable<ProductResponse>>>

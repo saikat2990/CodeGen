@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Contracts.ResponseModels;
-using Infrastructure.RequestHandlers;
 using MediatR;
 using Product.Application.Common;
 using Product.Application.Interfaces;
+using Shared.Contracts;
+using Shared.Infrastructures.RequestHandlers;
 
 namespace Product.Application.Features.Product.Commands;
 
@@ -21,7 +21,7 @@ public class CreateProductCommandHandler : BaseRequestHandler<CreateProductComma
     {
         var newProduct = _mapper.Map<Domain.Entities.Product>(request);
         await _repository.AddAsync(newProduct, ctn);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(ctn);
 
         return ApiResponse<int>.Success(newProduct.Id, Constants.CreateSuccessMsg);
     }
