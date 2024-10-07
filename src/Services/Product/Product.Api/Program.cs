@@ -1,4 +1,6 @@
-﻿using Product.Api.Extensions;
+﻿using Microsoft.AspNetCore.Builder;
+using Product.Api.Extensions;
+using Product.Api.Middleware;
 using Product.Application;
 using Product.Infrastructure;
 
@@ -26,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 

@@ -9,4 +9,6 @@ namespace Product.Infrastructure;
 public static class Constants
 {
     public const string DatabaseConnectionStringConfigName = "ProductDbConnectionString";
+
+    public const string ProductSchema = "product";
 }

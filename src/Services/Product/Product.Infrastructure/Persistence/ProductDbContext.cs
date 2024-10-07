@@ -33,6 +33,8 @@ public class ProductDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema(Constants.ProductSchema);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductDbContext).Assembly);
     }
 }
