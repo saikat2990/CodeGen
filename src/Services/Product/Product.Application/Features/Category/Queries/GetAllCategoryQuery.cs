@@ -22,6 +22,7 @@ public class GetAllCategoryQueryHandler : BaseRequestHandler<GetAllCategoryQuery
     {
         var categories = await _repository
             .GetAll()
+            .Include(c => c.Products)
             .ProjectTo<CategoryResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(ctn);
 

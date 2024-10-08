@@ -8,6 +8,9 @@ services:
     ports:
       - "5000:5000"
       - "5001:5001"
+    depends_on:
+      - product.database
+    restart: on-failure
 
   product.database:
     image: mcr.microsoft.com/mssql/server:2022-latest
