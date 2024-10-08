@@ -10,16 +10,8 @@ public class DeleteProductCommandValidator : BaseValidator<DeleteProductCommand>
 
     public DeleteProductCommandValidator(IProductUnitOfWork uow)
     {
-
-        RuleFor(x => x.Id)
-            .GreaterThan(0)
-            .MustAsync(async (rootObject, id, ctn) =>
-            {
-                var isProductExists = await uow.GetRepository<Domain.Entities.Product, int>()
-                    .AnyAsync(x => x.Id == id, ctn);
-                
-                return isProductExists;
-            })
-            .WithMessage((_, id) => Constants.Validation.DataNotFound($"Product with id = '{id}'"));
+        RuleFor(x => x.IdList)
+            .Must((_, ids) => ids.Count > 0)
+            .WithMessage(Constants.ListEmptyMsg);
     }
 }

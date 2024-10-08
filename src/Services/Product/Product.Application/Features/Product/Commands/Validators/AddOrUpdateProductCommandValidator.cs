@@ -5,10 +5,10 @@ using Shared.Behaviors;
 
 namespace Product.Application.Features.Product.Commands.Validators;
 
-public class UpdateProductCommandValidator : BaseValidator<UpdateProductCommand>
+public class AddOrUpdateProductCommandValidator : BaseValidator<AddOrUpdateProductCommand>
 {
 
-    public UpdateProductCommandValidator(IProductUnitOfWork uow)
+    public AddOrUpdateProductCommandValidator(IProductUnitOfWork uow)
     {
         RuleFor(x => x.Id)
             .NotNull()
@@ -19,7 +19,8 @@ public class UpdateProductCommandValidator : BaseValidator<UpdateProductCommand>
 
                 return isProductExists;
             })
-            .WithMessage((_, id) => Constants.Validation.DataNotFound($"Product with id = '{id}'"));
+            .When(x => x.Id > 0)
+            .WithMessage((_, id) => Errors.DataNotFound($"Product with id = '{id}'"));
 
         RuleFor(x => x.Name)
             .NotEmpty()
@@ -28,8 +29,8 @@ public class UpdateProductCommandValidator : BaseValidator<UpdateProductCommand>
         RuleFor(x => x.Description)
             .MaximumLength(Constants.Validation.MaxLongTextLength);
 
-        RuleFor(x => x.Price)
-            .GreaterThan(0);
+        RuleFor(x => x.Price).GreaterThan(0);
+        RuleFor(x => x.Stock).GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.CategoryId)
             .NotNull()
@@ -40,6 +41,6 @@ public class UpdateProductCommandValidator : BaseValidator<UpdateProductCommand>
 
                 return isCategoryExists;
             })
-            .WithMessage((_, catId) => Constants.Validation.DataNotFound($"Category with id = '{catId}'"));
+            .WithMessage((_, catId) => Errors.DataNotFound($"Category with id = '{catId}'"));
     }
 }
