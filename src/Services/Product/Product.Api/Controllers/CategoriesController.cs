@@ -7,10 +7,10 @@ namespace Product.Api.Controllers;
 public class CategoriesController : BaseController
 {
     [HttpPost]
-    public async Task<IActionResult> Create(CreateCategoryCommand command)
+    public async Task<IActionResult> AddOrUpdate(AddOrUpdateCategoryCommand command)
     {
         var response = await Sender.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = response.Data }, null);
+        return response.IsSuccess ? Ok(response) : BadRequest(response);
     }
 
     [HttpGet("{id}")]
@@ -21,25 +21,17 @@ public class CategoriesController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategories()
+    public async Task<IActionResult> GetList()
     {
         var categories = await Sender.Send(new GetAllCategoryQuery());
         return Ok(categories);
     }
 
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteCategoryCommand command)
     {
-        await Sender.Send(new DeleteCategoryCommand { Id = id });
-        return NoContent();
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, UpdateCategoryCommand command)
-    {
-        command.Id = id;
-        var updatedCategory = await Sender.Send(command);
-        return Ok(updatedCategory);
+        var response = await Sender.Send(command);
+        return response.IsSuccess ? NoContent() : BadRequest(response);
     }
 }

@@ -9,9 +9,7 @@ public class CategoryMappingProfile : Profile
 {
     public CategoryMappingProfile()
     {
-        CreateMap<CreateCategoryCommand, Category>();
         CreateMap<Category, CategoryResponse>();
-
-        CreateMap<UpdateCategoryCommand, Category>().ForMember(x => x.Id, x => x.Ignore());
+        CreateMap<AddOrUpdateCategoryCommand, Category>();
     }
 }

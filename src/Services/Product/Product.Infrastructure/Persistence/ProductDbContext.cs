@@ -9,8 +9,8 @@ public class ProductDbContext : DbContext
     {
     }
 
-    public DbSet<Product.Domain.Entities.Product> Products { get; set; }
-    public DbSet<Product.Domain.Entities.Category> Categories { get; set; }
+    public DbSet<Domain.Entities.Product> Products { get; set; }
+    public DbSet<Domain.Entities.Category> Categories { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
