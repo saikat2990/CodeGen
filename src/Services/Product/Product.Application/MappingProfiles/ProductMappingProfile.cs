@@ -10,6 +10,7 @@ public class ProductMappingProfile : Profile
     {
         CreateMap<Domain.Entities.Product, ProductResponse>();
         CreateMap<CreateProductCommand, Domain.Entities.Product>();
-        CreateMap<UpdateProductCommand, Domain.Entities.Product>();
+
+        CreateMap<UpdateProductCommand, Domain.Entities.Product>().ForMember(x => x.Id, x => x.Ignore());
     }
 }

@@ -17,7 +17,9 @@ public static class InfrastructureDependencyRegistration
     {
         services.AddDbContext<ProductDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString(Constants.DatabaseConnectionStringConfigName));
+            options.UseSqlServer(configuration.GetConnectionString(Constants.DatabaseConnectionStringConfigName))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
         });
 
         services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();

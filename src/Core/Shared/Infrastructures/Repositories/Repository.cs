@@ -48,4 +48,6 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntit
         _table.RemoveRange(entities);
     }
 
+    public bool Any(Expression<Func<TEntity, bool>> expression) => _table.Any(expression);
+    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken ctn) => await _table.AnyAsync(expression, ctn);
 }

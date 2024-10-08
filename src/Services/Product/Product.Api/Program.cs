@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Product.Api.Extensions;
-using Product.Api.Middleware;
+﻿using Product.Api.Extensions;
 using Product.Application;
 using Product.Infrastructure;
+using Shared.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 

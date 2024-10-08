@@ -11,7 +11,7 @@ public static class HelperExtensions
 
         var dbContext = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
 
-        if (!dbContext.Database.EnsureCreated())
+        if (dbContext.Database.EnsureCreated())
         {
             dbContext.Database.Migrate();
         }

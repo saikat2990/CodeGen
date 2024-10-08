@@ -17,4 +17,6 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     // Delete methods
     void Delete(TEntity entity);
     void BulkDelete(IEnumerable<TEntity> entities);
+    bool Any(Expression<Func<TEntity, bool>> expression);
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken ctn);
 }

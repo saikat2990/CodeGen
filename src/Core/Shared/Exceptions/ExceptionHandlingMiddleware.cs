@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Product.Api.Middleware;
+namespace Shared.Exceptions;
 
 public class ExceptionHandlingMiddleware
 {
@@ -22,6 +24,13 @@ public class ExceptionHandlingMiddleware
         catch (Exception exception)
         {
             _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+
+            if (exception is CommandValidationException cmdException)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.Response.WriteAsJsonAsync(cmdException.Errors);
+                return;
+            }
 
             var problemDetails = new ProblemDetails
             {
