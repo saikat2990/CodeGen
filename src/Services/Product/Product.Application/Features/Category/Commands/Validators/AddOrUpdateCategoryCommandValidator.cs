@@ -5,12 +5,11 @@ using Shared.Behaviors;
 
 namespace Product.Application.Features.Category.Commands.Validators;
 
-public class UpdateCategoryCommandValidator : BaseValidator<UpdateCategoryCommand>
+public class AddOrUpdateCategoryCommandValidator : BaseValidator<AddOrUpdateCategoryCommand>
 {
-    public UpdateCategoryCommandValidator(IProductUnitOfWork uow)
+    public AddOrUpdateCategoryCommandValidator(IProductUnitOfWork uow)
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0)
             .MustAsync(async (rootObject, catId, ctn) =>
             {
                 var isCategoryExists = await uow.GetRepository<Domain.Entities.Category, int>()
@@ -18,9 +17,11 @@ public class UpdateCategoryCommandValidator : BaseValidator<UpdateCategoryComman
 
                 return isCategoryExists;
             })
-            .WithMessage(Constants.Validation.DataNotFound("Category"));
+            .When(x => x.Id > 0)
+            .WithMessage(Errors.DataNotFound("Category"));
 
         RuleFor(x => x.Name)
+            .NotEmpty()
             .MaximumLength(Constants.Validation.MaxShortTextLength)
             .MustAsync(async (rootObject, catName, ctn) =>
             {
@@ -29,7 +30,7 @@ public class UpdateCategoryCommandValidator : BaseValidator<UpdateCategoryComman
 
                 return isCategoryNameDuplicate is false;
             })
-            .WithMessage((rootObject, catName) => Constants.Validation.DataAlreadyExists($"Category", catName));
+            .WithMessage((rootObject, catName) => Errors.DataAlreadyExists($"Category", catName));
 
         RuleFor(x => x.Description)
             .MaximumLength(Constants.Validation.MaxLongTextLength);

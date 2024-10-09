@@ -1,4 +1,5 @@
-﻿namespace Shared.Contracts;
+﻿
+namespace Shared.Contracts;
 
 public class ApiResponse<TResponse>
 {
@@ -11,4 +12,9 @@ public class ApiResponse<TResponse>
 
     public static ApiResponse<TResponse> Failure(string errorMessage, TResponse Data = default) =>
         new() { Data = Data, IsSuccess = false, Message = errorMessage };
+
+    public static ApiResponse<bool> Failure(object deleteFailed)
+    {
+        throw new NotImplementedException();
+    }
 }

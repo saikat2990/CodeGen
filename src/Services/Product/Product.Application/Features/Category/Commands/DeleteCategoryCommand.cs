@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Product.Application.Common;
 using Product.Application.Interfaces;
 using Shared.Contracts;
 using Shared.Infrastructures.RequestHandlers;
@@ -8,7 +9,7 @@ namespace Product.Application.Features.Category.Commands;
 
 public class DeleteCategoryCommand : IRequest<ApiResponse<bool>>
 {
-    public int Id { get; set; }
+    public List<int> IdList { get; set; }
 }
 
 public class DeleteCategoryHandler : BaseRequestHandler<DeleteCategoryCommand, ApiResponse<bool>, Domain.Entities.Category, int>
@@ -17,10 +18,7 @@ public class DeleteCategoryHandler : BaseRequestHandler<DeleteCategoryCommand, A
 
     public override async Task<ApiResponse<bool>> HandleRequest(DeleteCategoryCommand request, CancellationToken ctn)
     {
-        var category = await _repository.GetAsync(request.Id, ctn);
-        _repository.Delete(category);
-        await _uow.SaveAsync(ctn);
-
-        return ApiResponse<bool>.Success(true);
+        var recordsDeleted = await _repository.BulkDeleteAsync(request.IdList, ctn);
+        return recordsDeleted > 0 ? ApiResponse<bool>.Success(true) : ApiResponse<bool>.Failure(Constants.DeleteFailedMsg);
     }
 }

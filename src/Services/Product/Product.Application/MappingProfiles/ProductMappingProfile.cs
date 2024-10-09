@@ -9,8 +9,7 @@ public class ProductMappingProfile : Profile
     public ProductMappingProfile()
     {
         CreateMap<Domain.Entities.Product, ProductResponse>();
-        CreateMap<CreateProductCommand, Domain.Entities.Product>();
 
-        CreateMap<UpdateProductCommand, Domain.Entities.Product>().ForMember(x => x.Id, x => x.Ignore());
+        CreateMap<AddOrUpdateProductCommand, Domain.Entities.Product>();
     }
 }

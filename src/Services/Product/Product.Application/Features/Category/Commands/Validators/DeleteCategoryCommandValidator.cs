@@ -9,10 +9,9 @@ public class DeleteCategoryCommandValidator : BaseValidator<DeleteCategoryComman
 {
     public DeleteCategoryCommandValidator(IProductUnitOfWork uow)
     {
-        RuleFor(x => x.Id)
-            .GreaterThan(0)
-            .MustAsync(async (_, catId, ctn) => 
-                await uow.GetRepository<Domain.Entities.Category, int>().AnyAsync(cat => cat.Id == catId, ctn))
-            .WithMessage(Constants.Validation.DataNotFound("Category"));    
+        RuleFor(x => x.IdList)
+            .Must((_, ids) => ids.Count > 0)
+            .WithMessage(Constants.ListEmptyMsg);
+             
     }
 }

@@ -9,9 +9,9 @@ public class CategoryMappingProfile : Profile
 {
     public CategoryMappingProfile()
     {
-        CreateMap<CreateCategoryCommand, Category>();
-        CreateMap<Category, CategoryResponse>();
+        CreateMap<Category, CategoryResponse>()
+            .ForMember(d => d.Products, opt => opt.MapFrom(s => s.Products));
 
-        CreateMap<UpdateCategoryCommand, Category>().ForMember(x => x.Id, x => x.Ignore());
+        CreateMap<AddOrUpdateCategoryCommand, Category>();
     }
 }

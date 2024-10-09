@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared.Contracts;
 using System.Linq.Expressions;
 using System.Threading;
 
 namespace Shared.Infrastructures.Repositories;
 
-public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : class
+public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> 
+    where TKey : IEquatable<TKey>
+    where TEntity : class, IEntity<TKey>
 {
     protected readonly DbContext _context;
     private readonly DbSet<TEntity> _table;
@@ -43,9 +46,11 @@ public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntit
         _table.Remove(entity);
     }
 
-    public void BulkDelete(IEnumerable<TEntity> entities)
+    public async Task<int> BulkDeleteAsync(IEnumerable<TKey> Ids, CancellationToken ctn)
     {
-        _table.RemoveRange(entities);
+        return  await _table
+            .Where(x => Ids.Contains(x.Id))
+            .ExecuteDeleteAsync(ctn);
     }
 
     public bool Any(Expression<Func<TEntity, bool>> expression) => _table.Any(expression);

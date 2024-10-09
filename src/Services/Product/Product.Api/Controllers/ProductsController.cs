@@ -7,7 +7,7 @@ namespace Product.Api.Controllers;
 public class ProductsController : BaseController
 {
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetList()
     {
         var products = await Sender.Send(new GetAllProductsQuery());
         return Ok(products);
@@ -21,24 +21,16 @@ public class ProductsController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateProductCommand command)
+    public async Task<IActionResult> AddOrUpdate(AddOrUpdateProductCommand command)
     {
         var response = await Sender.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = response.Data }, null);
+        return response.IsSuccess ? Ok(response) : BadRequest(response);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, UpdateProductCommand command)
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteProductCommand command)
     {
-        command.Id = id;
-        await Sender.Send(command);
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(int id)
-    {
-        await Sender.Send(new DeleteProductCommand { Id = id });
-        return NoContent();
+        var response = await Sender.Send(command);
+        return response.IsSuccess ? NoContent() : BadRequest(response);
     }
 }

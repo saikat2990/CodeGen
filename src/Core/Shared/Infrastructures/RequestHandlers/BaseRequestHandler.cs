@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Shared.Contracts;
 using Shared.Infrastructures.Repositories;
 using Shared.Infrastructures.UnitOfWorks;
 
@@ -7,7 +8,8 @@ namespace Shared.Infrastructures.RequestHandlers;
 
 public abstract class BaseRequestHandler<TRequest, TResponse, TEntity, TKey> : IRequestHandler<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TEntity : class
+    where TKey : IEquatable<TKey>
+    where TEntity : class, IEntity<TKey>
 
 {
     protected readonly IUnitOfWork _uow;

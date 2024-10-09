@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Product.Application.Common;
 using Product.Application.Interfaces;
 using Shared.Contracts;
 using Shared.Infrastructures.RequestHandlers;
@@ -8,7 +9,7 @@ namespace Product.Application.Features.Product.Commands;
 
 public class DeleteProductCommand : IRequest<ApiResponse<bool>>
 {
-    public int Id { get; set; }
+    public List<int> IdList { get; set; }
 }
 
 public class DeleteProductCommandHandler : BaseRequestHandler<DeleteProductCommand, ApiResponse<bool>, Domain.Entities.Product, int>
@@ -19,10 +20,8 @@ public class DeleteProductCommandHandler : BaseRequestHandler<DeleteProductComma
 
     public override async Task<ApiResponse<bool>> HandleRequest(DeleteProductCommand request, CancellationToken ctn)
     {
-        var product = await _repository.GetAsync(request.Id, ctn);
-        _repository.Delete(product);
-
-        await _uow.SaveAsync(ctn);
-        return ApiResponse<bool>.Success(true);
+        var recordsDeleted = await _repository.BulkDeleteAsync(request.IdList, ctn);
+        
+        return recordsDeleted > 0 ? ApiResponse<bool>.Success(true) : ApiResponse<bool>.Failure(Constants.DeleteFailedMsg);
     }
 }
