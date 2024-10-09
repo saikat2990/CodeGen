@@ -19,9 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EEFC5D50-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Infrastructure", "Services\Product\Product.Infrastructure\Product.Infrastructure.csproj", "{D8795172-793C-4938-A5AD-2185DEFC45B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Core\Shared\Shared.csproj", "{DDB1D820-8CA1-4D9B-BF9D-C7EC35B4A241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Core\Shared\Shared.csproj", "{DDB1D820-8CA1-4D9B-BF9D-C7EC35B4A241}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{75FAA786-9AE4-481C-A627-AA8D70871284}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{CF683D8F-B165-4F56-BF0A-11265CB71FC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{B9474A82-A799-45AD-B1BD-7D4620A408FE} = {CF683D8F-B165-4F56-BF0A-11265CB71FC5}
 		{01303503-1A8D-4267-B930-F59D23624DA9} = {B9474A82-A799-45AD-B1BD-7D4620A408FE}
 		{EA83ABB8-D97F-4557-AC44-E40203895227} = {01303503-1A8D-4267-B930-F59D23624DA9}
 		{25A4339A-BBE1-47D6-9EE4-966A27C28A15} = {EA83ABB8-D97F-4557-AC44-E40203895227}
