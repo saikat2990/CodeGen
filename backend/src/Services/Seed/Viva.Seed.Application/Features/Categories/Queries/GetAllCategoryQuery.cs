@@ -16,7 +16,7 @@ public class GetAllCategoryQuery : GridRequestQuery, IRequest<ApiResponse<ListVi
 
 public class GetAllCategoryQueryHandler : BaseRequestHandler<GetAllCategoryQuery, ApiResponse<ListViewModel<CategoryModel>>, Category, int>
 {
-    public GetAllCategoryQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public GetAllCategoryQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

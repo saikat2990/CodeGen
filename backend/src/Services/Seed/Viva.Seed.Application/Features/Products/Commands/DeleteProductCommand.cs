@@ -14,7 +14,7 @@ public class DeleteProductCommand : IRequest<ApiResponse<bool>>
 
 public class DeleteProductCommandHandler : BaseRequestHandler<DeleteProductCommand, ApiResponse<bool>, Domain.Entities.Product, int>
 {
-    public DeleteProductCommandHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public DeleteProductCommandHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

@@ -15,7 +15,7 @@ public class GetAllProductsQuery : GridRequestQuery, IRequest<ApiResponse<ListVi
 
 public class GetAllProductsQueryHandler : BaseRequestHandler<GetAllProductsQuery, ApiResponse<ListViewModel<ProductModel>>, Domain.Entities.Product, int>
 {
-    public GetAllProductsQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public GetAllProductsQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

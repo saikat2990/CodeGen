@@ -8,7 +8,7 @@ namespace Viva.Seed.Application.Features.Categories.Commands.Validators;
 
 public class AddOrUpdateCategoryCommandValidator : BaseValidator<AddOrUpdateCategoryCommand>
 {
-    public AddOrUpdateCategoryCommandValidator(IProductUnitOfWork uow)
+    public AddOrUpdateCategoryCommandValidator(IVivaSeedUnitOfWork uow)
     {
         RuleFor(x => x.Id)
             .MustAsync(async (rootObject, catId, ctn) =>

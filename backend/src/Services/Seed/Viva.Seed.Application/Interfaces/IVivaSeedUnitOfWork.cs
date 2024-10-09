@@ -2,6 +2,6 @@
 
 namespace Viva.Seed.Application.Interfaces;
 
-public interface IProductUnitOfWork : IUnitOfWork
+public interface IVivaSeedUnitOfWork : IUnitOfWork
 {
 }
