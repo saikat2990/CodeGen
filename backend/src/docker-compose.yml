@@ -1,20 +1,19 @@
 services:
-  product.api:
-    image: ${DOCKER_REGISTRY-}productapi
-    container_name: product.api
+  viva.seed.api:
+    image: ${DOCKER_REGISTRY-}viva.seed.api
+    container_name: viva.seed.api
     build:
       context: .
-      dockerfile: Services/Product/Product.Api/Dockerfile
+      dockerfile: Services/Seed/Viva.Seed.Api/Dockerfile
     ports:
       - "5000:5000"
-      - "5001:5001"
     depends_on:
-      - product.database
+      - viva.seed.database
     restart: on-failure
 
-  product.database:
+  viva.seed.database:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: product.database
+    container_name: viva.seed.database
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=YourStrong(!)Password2024
