@@ -14,7 +14,7 @@ public class GetCategoryByIdQuery : IRequest<ApiResponse<CategoryModel>>
 
 public class GetCategoryByIdQueryHandler : BaseRequestHandler<GetCategoryByIdQuery, ApiResponse<CategoryModel>, Category, int>
 {
-    public GetCategoryByIdQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper) {}
+    public GetCategoryByIdQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper) {}
 
     public override async Task<ApiResponse<CategoryModel>> HandleRequest(GetCategoryByIdQuery request, CancellationToken ctn)
     {

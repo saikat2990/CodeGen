@@ -8,7 +8,7 @@ namespace Viva.Seed.Application.Features.Categories.Commands.Validators;
 
 public class DeleteCategoryCommandValidator : BaseValidator<DeleteCategoryCommand>
 {
-    public DeleteCategoryCommandValidator(IProductUnitOfWork uow)
+    public DeleteCategoryCommandValidator(IVivaSeedUnitOfWork uow)
     {
         RuleFor(x => x.IdList)
             .Must((_, ids) => ids.Count > 0)

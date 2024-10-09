@@ -12,7 +12,7 @@ using Viva.Seed.Infrastructure.Persistence;
 namespace Viva.Seed.Infrastructure.Migrations
 {
     [DbContext(typeof(VivaSeedDbContext))]
-    [Migration("20241009144426_InitialMigration")]
+    [Migration("20241009154439_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

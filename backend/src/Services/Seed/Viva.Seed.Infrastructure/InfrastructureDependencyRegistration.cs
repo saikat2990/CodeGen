@@ -17,7 +17,7 @@ public static class InfrastructureDependencyRegistration
                 .EnableDetailedErrors();
         });
 
-        services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
+        services.AddScoped<IVivaSeedUnitOfWork, VivaSeedUnitOfWork>();
 
         return services;
     }

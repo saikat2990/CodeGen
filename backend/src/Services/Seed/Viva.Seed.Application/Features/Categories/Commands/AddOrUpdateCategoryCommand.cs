@@ -16,7 +16,7 @@ public class AddOrUpdateCategoryCommand : CategoryModel, IRequest<ApiResponse<Ca
 
 public class AddOrUpdateCategoryHandler : BaseRequestHandler<AddOrUpdateCategoryCommand, ApiResponse<CategoryModel>, Category, int>
 {
-    public AddOrUpdateCategoryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public AddOrUpdateCategoryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

@@ -13,7 +13,6 @@ public class VivaSeedDbContext : IdentityDbContext<ApplicationUser, Role, int>
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public override DbSet<Role> Roles { get; set; }
     public DbSet<Right> Rights { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

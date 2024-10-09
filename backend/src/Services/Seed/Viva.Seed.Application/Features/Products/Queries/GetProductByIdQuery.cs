@@ -14,7 +14,7 @@ public class GetProductByIdQuery : IRequest<ApiResponse<ProductModel>>
 
 public class GetProductByIdQueryHandler : BaseRequestHandler<GetProductByIdQuery, ApiResponse<ProductModel>, Product, int>
 {
-    public GetProductByIdQueryHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public GetProductByIdQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

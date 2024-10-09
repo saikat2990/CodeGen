@@ -9,7 +9,7 @@ namespace Viva.Seed.Application.Features.Products.Commands.Validators;
 public class AddOrUpdateProductCommandValidator : BaseValidator<AddOrUpdateProductCommand>
 {
 
-    public AddOrUpdateProductCommandValidator(IProductUnitOfWork uow)
+    public AddOrUpdateProductCommandValidator(IVivaSeedUnitOfWork uow)
     {
         RuleFor(x => x.Id)
             .NotNull()

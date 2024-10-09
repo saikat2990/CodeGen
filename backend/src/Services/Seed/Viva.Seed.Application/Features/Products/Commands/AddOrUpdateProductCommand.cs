@@ -22,7 +22,7 @@ public class AddOrUpdateProductCommand : IRequest<ApiResponse<ProductModel>>
 
 public class AddOrUpdateProductCommandHandler : BaseRequestHandler<AddOrUpdateProductCommand, ApiResponse<ProductModel>, Product, int>
 {
-    public AddOrUpdateProductCommandHandler(IProductUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public AddOrUpdateProductCommandHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 
