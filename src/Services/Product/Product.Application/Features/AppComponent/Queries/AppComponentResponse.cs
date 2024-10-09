@@ -1,13 +1,8 @@
-﻿using Shared.Contracts;
+﻿using Product.Application.Features.ApplicationMenu.Queries;
 
-namespace Product.Domain.Entities;
-public class AppComponent : EntityAuditable, IEntity<Guid>
+namespace Product.Application.Features.AppComponent.Queries;
+public class AppComponentResponse
 {
-    public AppComponent()
-    {
-        ApplicationMenus = new List<ApplicationMenu>();
-    }
-
     public Guid Id { get; set; }
     public int ModuleId { get; set; }
     public string Name { get; set; }
@@ -17,5 +12,5 @@ public class AppComponent : EntityAuditable, IEntity<Guid>
     public string PageType { get; set; }
     public string PageLayout { get; set; }
     public bool IsActive { get; set; } = true;
-    public IEnumerable<ApplicationMenu> ApplicationMenus { get; set; }
+    public IEnumerable<ApplicationMenuResponse> ApplicationMenus { get; set; }
 }

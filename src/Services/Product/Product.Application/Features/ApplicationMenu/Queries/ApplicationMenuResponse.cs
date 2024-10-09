@@ -1,14 +1,14 @@
-﻿using Shared.Contracts;
+﻿using Product.Application.Features.AppComponent.Queries;
 
-namespace Product.Domain.Entities;
-public class ApplicationMenu: EntityAuditable, IEntity<Guid>
+namespace Product.Application.Features.ApplicationMenu.Queries;
+public class ApplicationMenuResponse
 {
     public Guid Id { get; set; }
     public Guid? ParentId { get; set; }
     public int TypeId { get; set; }
     public string Name { get; set; }
     public string? Icon { get; set; }
-    public string? BadgeText { get; set; } 
+    public string? BadgeText { get; set; }
     public string? Url { get; set; }
     public string? Tooltip { get; set; }
     public int? RightId { get; set; }
@@ -16,5 +16,5 @@ public class ApplicationMenu: EntityAuditable, IEntity<Guid>
     public Guid? AppComponentId { get; set; }
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
-    public AppComponent? AppComponent { get; set; }
+    public AppComponentResponse? AppComponent { get; set; }
 }
