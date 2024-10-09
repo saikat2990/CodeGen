@@ -31,7 +31,7 @@ public class AddOrUpdateApplicationMenuHandler : BaseRequestHandler<AddOrUpdateA
         var applicationMenu = request.Id != Guid.Empty ? await _repository.GetAsync(request.Id, cancellationToken) : new();
         if (applicationMenu is null)
         {
-            return ApiResponse<ApplicationMenuResponse>.Failure(Errors.DataNotFound($"applicationMenu with Id = '{request.Id}'"));
+            return ApiResponse<ApplicationMenuResponse>.Failure(Errors.DataNotFound($"ApplicationMenu with Id = '{request.Id}'"));
         }
 
         _mapper.Map(request, applicationMenu);

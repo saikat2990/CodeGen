@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Product.Domain.Entities;
 
 namespace Product.Infrastructure.EntityConfigurations;
-public class ApplicationMenuConfiguration : IEntityTypeConfiguration<ApplicationMenu>
+public class ApplicationMenuConfiguration : IEntityTypeConfiguration<Domain.Entities.ApplicationMenu>
 {
-    public void Configure(EntityTypeBuilder<ApplicationMenu> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.ApplicationMenu> builder)
     {
         builder.ToTable("ApplicationMenus");
 

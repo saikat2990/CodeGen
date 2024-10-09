@@ -15,7 +15,7 @@ public class ProductDbContext : DbContext
 
     public DbSet<AppComponent> AppComponents { get; set; }
 
-    public DbSet<ApplicationMenu> ApplicationMenus{ get; set; }
+    public DbSet<Product.Domain.Entities.ApplicationMenu> ApplicationMenus{ get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
