@@ -6,10 +6,10 @@ namespace Product.Api.Controllers;
 
 public class ProductsController : BaseController
 {
-    [HttpGet]
-    public async Task<IActionResult> GetList()
+    [HttpPost("list")]
+    public async Task<IActionResult> GetList(GetAllProductsQuery query)
     {
-        var products = await Sender.Send(new GetAllProductsQuery());
+        var products = await Sender.Send(query);
         return Ok(products);
     }
 

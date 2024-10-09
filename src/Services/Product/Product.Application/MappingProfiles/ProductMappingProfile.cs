@@ -8,7 +8,8 @@ public class ProductMappingProfile : Profile
 {
     public ProductMappingProfile()
     {
-        CreateMap<Domain.Entities.Product, ProductResponse>();
+        CreateMap<Domain.Entities.Product, ProductResponse>()
+            .ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name));
 
         CreateMap<AddOrUpdateProductCommand, Domain.Entities.Product>();
     }
