@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Product.Domain.Entities;
 using Shared.Contracts;
 
 namespace Product.Infrastructure.Persistence;
@@ -9,8 +10,12 @@ public class ProductDbContext : DbContext
     {
     }
 
-    public DbSet<Product.Domain.Entities.Product> Products { get; set; }
-    public DbSet<Product.Domain.Entities.Category> Categories { get; set; }
+    public DbSet<Domain.Entities.Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
+
+    public DbSet<AppComponent> AppComponents { get; set; }
+
+    public DbSet<ApplicationMenu> ApplicationMenus{ get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
