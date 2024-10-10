@@ -31,7 +31,7 @@ public class AddOrUpdateProductCommandHandler : BaseRequestHandler<AddOrUpdatePr
         var product = request.Id > 0 ? await _repository.GetAsync(request.Id, ctn) : new();
         if (product is null)
         {
-            return ApiResponse<ProductModel>.Failure(Errors.DataNotFound($"Product with id = '{request.Id}'"));
+            return ApiResponse<ProductModel>.FailureResult(Errors.DataNotFound($"Product with id = '{request.Id}'"));
         }
 
         _mapper.Map(request, product);

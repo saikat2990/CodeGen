@@ -22,6 +22,6 @@ public class DeleteProductCommandHandler : BaseRequestHandler<DeleteProductComma
     {
         var recordsDeleted = await _repository.BulkDeleteAsync(request.IdList, ctn);
         
-        return recordsDeleted > 0 ? ApiResponse<bool>.SuccessResult(true) : ApiResponse<bool>.Failure(Constants.DeleteFailedMsg);
+        return recordsDeleted > 0 ? ApiResponse<bool>.SuccessResult(true) : ApiResponse<bool>.FailureResult(Constants.DeleteFailedMsg);
     }
 }

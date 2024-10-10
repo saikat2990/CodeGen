@@ -18,10 +18,15 @@ public class GetCategoryByIdQueryHandler : BaseRequestHandler<GetCategoryByIdQue
 
     public override async Task<ApiResponse<CategoryModel>> HandleRequest(GetCategoryByIdQuery request, CancellationToken ctn)
     {
+        if (IsEmpty(request.Id))
+        {
+            return ApiResponse<CategoryModel>.EmptyResult<CategoryModel>();
+        }
+
         var categoryResponse = await _repository.GetAsync(request.Id, ctn);
         if (categoryResponse is null)
         {
-            return ApiResponse<CategoryModel>.Failure($"Category not found with id = '{request.Id}'");
+            return ApiResponse<CategoryModel>.FailureResult($"Category not found with id = '{request.Id}'");
         }
 
         return ApiResponse<CategoryModel>.SuccessResult(_mapper.Map<CategoryModel>(categoryResponse));

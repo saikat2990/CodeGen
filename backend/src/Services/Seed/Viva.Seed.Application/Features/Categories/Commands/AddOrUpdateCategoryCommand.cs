@@ -25,7 +25,7 @@ public class AddOrUpdateCategoryHandler : BaseRequestHandler<AddOrUpdateCategory
         var category = request.Id != 0 ? await _repository.GetAsync(request.Id, cancellationToken) : new();
         if (category is null)
         {
-            return ApiResponse<CategoryModel>.Failure(Errors.DataNotFound($"Category with Id = '{request.Id}'"));
+            return ApiResponse<CategoryModel>.FailureResult(Errors.DataNotFound($"Category with Id = '{request.Id}'"));
         }
 
         _mapper.Map(request, category);
