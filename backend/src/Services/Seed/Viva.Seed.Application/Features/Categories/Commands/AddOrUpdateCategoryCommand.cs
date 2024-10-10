@@ -9,23 +9,23 @@ using Viva.Seed.Domain.Entities;
 
 namespace Viva.Seed.Application.Features.Categories.Commands;
 
-public class AddOrUpdateCategoryCommand : CategoryModel, IRequest<ApiResponse<CategoryModel>>
+public class AddOrUpdateCategoryCommand : CategoryModel, IRequest<ApiResponse<int>>
 {
 
 }
 
-public class AddOrUpdateCategoryHandler : BaseRequestHandler<AddOrUpdateCategoryCommand, ApiResponse<CategoryModel>, Category, int>
+public class AddOrUpdateCategoryHandler : BaseRequestHandler<AddOrUpdateCategoryCommand, ApiResponse<int>, Category, int>
 {
     public AddOrUpdateCategoryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 
-    public override async Task<ApiResponse<CategoryModel>> HandleRequest(AddOrUpdateCategoryCommand request, CancellationToken cancellationToken)
+    public override async Task<ApiResponse<int>> HandleRequest(AddOrUpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = request.Id != 0 ? await _repository.GetAsync(request.Id, cancellationToken) : new();
         if (category is null)
         {
-            return ApiResponse<CategoryModel>.FailureResult(Errors.DataNotFound($"Category with Id = '{request.Id}'"));
+            return ApiResponse<int>.FailureResult(Errors.DataNotFound($"Category with Id = '{request.Id}'"));
         }
 
         _mapper.Map(request, category);
@@ -37,6 +37,6 @@ public class AddOrUpdateCategoryHandler : BaseRequestHandler<AddOrUpdateCategory
 
         await _uow.SaveAsync(cancellationToken);
 
-        return ApiResponse<CategoryModel>.SuccessResult(_mapper.Map<CategoryModel>(category));
+        return ApiResponse<int>.SuccessResult(category.Id, request.Id == 0 ? Constants.CreateSuccessMsg : Constants.UpdateSuccessMsg);
     }
 }
