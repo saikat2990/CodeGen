@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Order from "./pages/Order";
+import Home from "./pages/Home";
+import Test from "./pages/Test";
 import Layout from "./components/layout";
 
 const App: React.FC = () => {
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         {/* Protected routes */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/test" element={<Test />} />
         </Route>
       </Routes>
     </Router>
