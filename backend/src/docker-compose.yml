@@ -1,0 +1,26 @@
+services:
+  viva.seed.api:
+    image: ${DOCKER_REGISTRY-}viva.seed.api
+    container_name: viva.seed.api
+    build:
+      context: .
+      dockerfile: Services/Seed/Viva.Seed.Api/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - viva.seed.database
+    restart: on-failure
+
+  viva.seed.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: viva.seed.database
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong(!)Password2024
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
