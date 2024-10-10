@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
-import Test from "./pages/Test";
+import Test from "./pages/ListViewEngine";
+import TestDesign from "./pages/ListViewEngine/design";
 import Layout from "./components/layout";
 
 const App: React.FC = () => {
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/test/design" element={<TestDesign />} />
         </Route>
       </Routes>
     </Router>
