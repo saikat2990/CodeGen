@@ -2,7 +2,7 @@
 
 namespace Viva.Shared.Models;
 
-public class GridRequestQuery
+public class GridDataFetchModel
 {
     [JsonProperty("skip")]
     public int Skip { get; set; }

@@ -5,16 +5,16 @@ using Viva.Shared.Models;
 
 namespace Viva.Shared.Services;
 
-public class GridRequestQueryManager
+public class GridDataFetchManager
 {
     private readonly IMapper _mapper;
 
-    public GridRequestQueryManager(IMapper mapper)
+    public GridDataFetchManager(IMapper mapper)
     {
         _mapper = mapper;
     }
 
-    public async Task<ListViewModel<TResponse>> GetListViewDataAsync<TEntity, TResponse>(IQueryable<TEntity> query, GridRequestQuery request, CancellationToken ctn = default)
+    public async Task<ListViewModel<TResponse>> GetListViewDataAsync<TEntity, TResponse>(IQueryable<TEntity> query, GridDataFetchModel request, CancellationToken ctn = default)
         where TResponse : class
         where TEntity : class
     {

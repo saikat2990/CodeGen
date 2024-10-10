@@ -10,7 +10,7 @@ using Viva.Shared.Services;
 
 namespace Viva.Seed.Application.Features.Categories.Queries;
 
-public class GetAllCategoryQuery : GridRequestQuery, IRequest<ApiResponse<ListViewModel<CategoryModel>>>
+public class GetAllCategoryQuery : GridDataFetchModel, IRequest<ApiResponse<ListViewModel<CategoryModel>>>
 {
 }
 
@@ -24,7 +24,7 @@ public class GetAllCategoryQueryHandler : BaseRequestHandler<GetAllCategoryQuery
     {
         var query = _repository.GetAll().Include(c => c.Products);
 
-        var listViewModel = await new GridRequestQueryManager(_mapper)
+        var listViewModel = await new GridDataFetchManager(_mapper)
             .GetListViewDataAsync<Category, CategoryModel>(query, request, ctn);
 
         return ApiResponse<ListViewModel<CategoryModel>>.SuccessResult(listViewModel);

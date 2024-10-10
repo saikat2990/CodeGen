@@ -3,6 +3,7 @@ using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Seed.Domain.Entities;
+using Viva.Seed.Application.Features.Products.Commands;
 
 namespace Viva.Seed.Application.Features.Products.Commands.Validators;
 

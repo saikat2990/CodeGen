@@ -15,7 +15,7 @@ public class DeleteCategoryCommand : IRequest<ApiResponse<bool>>
 
 public class DeleteCategoryHandler : BaseRequestHandler<DeleteCategoryCommand, ApiResponse<bool>, Category, int>
 {
-    public DeleteCategoryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper){}
+    public DeleteCategoryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper) { }
 
     public override async Task<ApiResponse<bool>> HandleRequest(DeleteCategoryCommand request, CancellationToken ctn)
     {
