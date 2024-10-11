@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 using Viva.Shared.Contracts;
 
 namespace Viva.Seed.Application.Interfaces;

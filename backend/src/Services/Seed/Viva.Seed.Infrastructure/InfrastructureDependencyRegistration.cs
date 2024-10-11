@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Viva.Seed.Application.Interfaces;
-using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 using Viva.Seed.Infrastructure.Membership;
 using Viva.Seed.Infrastructure.Persistence;
 

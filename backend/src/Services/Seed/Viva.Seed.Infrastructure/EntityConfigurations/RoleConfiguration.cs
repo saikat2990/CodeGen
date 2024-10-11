@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 
 namespace Viva.Seed.Infrastructure.EntityConfigurations;
 
@@ -11,5 +11,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable(nameof(Role));
 
         builder.HasKey(x => x.Id);
+
+        builder.HasMany(r => r.Rights)
+            .WithMany(right => right.Roles);
     }
 }

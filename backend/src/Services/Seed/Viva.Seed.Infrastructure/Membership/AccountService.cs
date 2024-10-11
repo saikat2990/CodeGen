@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Interfaces;
-using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 using Viva.Shared.Contracts;
 
 namespace Viva.Seed.Infrastructure.Membership;
