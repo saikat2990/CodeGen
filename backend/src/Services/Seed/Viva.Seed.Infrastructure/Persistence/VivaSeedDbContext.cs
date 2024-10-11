@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Viva.Shared.Contracts;
 using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 
 namespace Viva.Seed.Infrastructure.Persistence;
 
