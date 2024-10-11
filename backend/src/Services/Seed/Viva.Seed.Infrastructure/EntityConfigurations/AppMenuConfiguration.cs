@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Viva.Seed.Domain.Entities.defaults;
 
@@ -21,6 +16,5 @@ public class AppMenuConfiguration : IEntityTypeConfiguration<AppMenu>
             .WithMany(c => c.AppMenus)
             .HasForeignKey(m => m.AppComponentId);
 
-        builder.Property(m => m.TypeId).HasConversion<string>();
     }
 }

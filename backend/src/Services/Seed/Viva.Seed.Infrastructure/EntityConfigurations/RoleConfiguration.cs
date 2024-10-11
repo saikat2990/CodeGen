@@ -12,7 +12,5 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         builder.HasKey(x => x.Id);
 
-        builder.HasMany(r => r.Rights)
-            .WithMany(right => right.Roles);
     }
 }

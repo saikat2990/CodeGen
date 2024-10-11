@@ -8,6 +8,8 @@ public class Right : IEntity<int>
 
     public string Name { get; set; }
 
-    public ICollection<Role> Roles { get; set; } = [];
     public ICollection<AppMenu> AppMenus { get; set; } = [];
+    
+    public ICollection<Role> Roles { get; set; } = [];
+    public ICollection<RightRole> RightRoles { get; set; } = [];
 }

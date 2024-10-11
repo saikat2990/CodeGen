@@ -15,8 +15,5 @@ public class AppComponentConfiguration : IEntityTypeConfiguration<AppComponent>
         builder.HasMany(c => c.AppMenus)
             .WithOne(m => m.AppComponent)
             .HasForeignKey(m => m.AppComponentId);
-
-        builder.Property(c => c.PageType).HasConversion<string>();
-        builder.Property(c => c.ModuleId).HasConversion<string>();
     }
 }

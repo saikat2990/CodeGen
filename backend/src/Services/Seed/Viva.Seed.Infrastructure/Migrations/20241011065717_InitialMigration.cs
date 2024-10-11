@@ -15,6 +15,31 @@ namespace Viva.Seed.Infrastructure.Migrations
                 name: "viva_seed");
 
             migrationBuilder.CreateTable(
+                name: "AppComponent",
+                schema: "viva_seed",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    PageType = table.Column<int>(type: "int", nullable: false),
+                    TemplateName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ServiceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EntryFunc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PageLayout = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppComponent", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 schema: "viva_seed",
                 columns: table => new
@@ -238,31 +263,81 @@ namespace Viva.Seed.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppMenu",
+                schema: "viva_seed",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BadgeText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tooltip = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModuleId = table.Column<int>(type: "int", nullable: true),
+                    RightId = table.Column<int>(type: "int", nullable: true),
+                    AppComponentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppMenu_AppComponent_AppComponentId",
+                        column: x => x.AppComponentId,
+                        principalSchema: "viva_seed",
+                        principalTable: "AppComponent",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AppMenu_Right_RightId",
+                        column: x => x.RightId,
+                        principalSchema: "viva_seed",
+                        principalTable: "Right",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RightRole",
                 schema: "viva_seed",
                 columns: table => new
                 {
-                    PermissionsId = table.Column<int>(type: "int", nullable: false),
-                    RightsId = table.Column<int>(type: "int", nullable: false)
+                    RightId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RightRole", x => new { x.PermissionsId, x.RightsId });
+                    table.PrimaryKey("PK_RightRole", x => new { x.RightId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_RightRole_AspNetRoles_RightsId",
-                        column: x => x.RightsId,
+                        name: "FK_RightRole_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
                         principalSchema: "viva_seed",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RightRole_Right_PermissionsId",
-                        column: x => x.PermissionsId,
+                        name: "FK_RightRole_Right_RightId",
+                        column: x => x.RightId,
                         principalSchema: "viva_seed",
                         principalTable: "Right",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppMenu_AppComponentId",
+                schema: "viva_seed",
+                table: "AppMenu",
+                column: "AppComponentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppMenu_RightId",
+                schema: "viva_seed",
+                table: "AppMenu",
+                column: "RightId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -317,15 +392,19 @@ namespace Viva.Seed.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RightRole_RightsId",
+                name: "IX_RightRole_RoleId",
                 schema: "viva_seed",
                 table: "RightRole",
-                column: "RightsId");
+                column: "RoleId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppMenu",
+                schema: "viva_seed");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
                 schema: "viva_seed");
@@ -352,6 +431,10 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "RightRole",
+                schema: "viva_seed");
+
+            migrationBuilder.DropTable(
+                name: "AppComponent",
                 schema: "viva_seed");
 
             migrationBuilder.DropTable(

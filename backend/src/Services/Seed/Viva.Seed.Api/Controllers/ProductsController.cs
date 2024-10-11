@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Viva.Seed.Application.Common.Features.Products.Queries;
 using Viva.Seed.Application.Features.Products.Commands;
 using Viva.Seed.Application.Features.Products.Queries;
 
