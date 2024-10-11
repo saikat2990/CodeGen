@@ -29,4 +29,15 @@ public abstract class BaseRequestHandler<TRequest, TResponse, TEntity, TKey> : I
     }
 
     public abstract Task<TResponse> HandleRequest(TRequest request, CancellationToken cancellationToken);
+
+    public static bool IsEmpty<T>(T value)
+    {
+        return typeof(T) switch
+        {
+            Type t when t == typeof(int) => EqualityComparer<T>.Default.Equals(value, default(T)),
+            Type t when t == typeof(string) => string.IsNullOrEmpty(value as string), 
+            Type t when t.IsValueType => EqualityComparer<T>.Default.Equals(value, default(T)),
+            _ => false // Default case for unhandled types
+        };
+    }
 }

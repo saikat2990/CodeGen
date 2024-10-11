@@ -13,6 +13,6 @@ public class DeleteCategoryCommandValidator : BaseValidator<DeleteCategoryComman
         RuleFor(x => x.IdList)
             .Must((_, ids) => ids.Count > 0)
             .WithMessage(Constants.ListEmptyMsg);
-             
+
     }
 }

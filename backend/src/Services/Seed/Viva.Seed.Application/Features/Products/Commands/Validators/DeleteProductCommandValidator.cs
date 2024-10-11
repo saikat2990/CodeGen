@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Viva.Seed.Application.Common;
+using Viva.Seed.Application.Features.Products.Commands;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 

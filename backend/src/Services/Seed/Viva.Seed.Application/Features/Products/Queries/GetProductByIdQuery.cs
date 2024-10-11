@@ -20,7 +20,16 @@ public class GetProductByIdQueryHandler : BaseRequestHandler<GetProductByIdQuery
 
     public override async Task<ApiResponse<ProductModel>> HandleRequest(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
+        if (IsEmpty(request.Id))
+        {
+            return ApiResponse<ProductModel>.EmptyResult<ProductModel>();
+        }
+
         var product = await _repository.GetAsync(request.Id, cancellationToken);
+        if (product is null)
+        {
+            return ApiResponse<ProductModel>.FailureResult($"Product not found with id = '{request.Id}'");
+        }
 
         return ApiResponse<ProductModel>.SuccessResult(_mapper.Map<ProductModel>(product));
     }

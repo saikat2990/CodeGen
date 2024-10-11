@@ -21,7 +21,7 @@ public class DeleteProductCommandHandler : BaseRequestHandler<DeleteProductComma
     public override async Task<ApiResponse<bool>> HandleRequest(DeleteProductCommand request, CancellationToken ctn)
     {
         var recordsDeleted = await _repository.BulkDeleteAsync(request.IdList, ctn);
-        
-        return recordsDeleted > 0 ? ApiResponse<bool>.SuccessResult(true) : ApiResponse<bool>.Failure(Constants.DeleteFailedMsg);
+
+        return recordsDeleted > 0 ? ApiResponse<bool>.SuccessResult(true) : ApiResponse<bool>.FailureResult(Constants.DeleteFailedMsg);
     }
 }
