@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Viva.Seed.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class BaseController : ControllerBase
 {
     private ISender _sender;

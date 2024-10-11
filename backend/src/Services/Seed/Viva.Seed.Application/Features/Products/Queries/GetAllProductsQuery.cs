@@ -3,13 +3,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
+using Viva.Shared.Helpers;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Models;
-using Viva.Shared.Services;
 
 namespace Viva.Seed.Application.Features.Products.Queries;
 
-public class GetAllProductsQuery : GridDataFetchModel, IRequest<ApiResponse<ListViewModel<ProductModel>>>
+public class GetAllProductsQuery : GridDataFetchRequest, IRequest<ApiResponse<ListViewModel<ProductModel>>>
 {
 }
 
