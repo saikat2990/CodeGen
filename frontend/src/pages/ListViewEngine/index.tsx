@@ -133,7 +133,20 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
     .filter(Boolean); // Filter out any undefined or null values
 };
 
-const Test: React.FC = () => {
+const Test: React.FC = ({ pageId }: { pageId: number }) => {
+  // todo: api call to get the template data using page id
+  // get page
+  // if no layout, create a new template
+  // for list page:
+  // get data using the model name and find the column keys to generate a json page layout and acknowledge backend
+  // if no data available, do nothing
+  // if layout is true the render
+
+  /*
+    1. get page 
+
+  */
+
   const json = {
     title: "Test Title",
     subtitle: "Test Subtitle",
