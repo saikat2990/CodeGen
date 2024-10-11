@@ -6,11 +6,11 @@ using Viva.Seed.Application.Interfaces;
 using Viva.Seed.Domain.Entities;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
-using Viva.Shared.Services;
+using Viva.Shared.Helpers;
 
 namespace Viva.Seed.Application.Features.Categories.Queries;
 
-public class GetAllCategoryQuery : GridDataFetchModel, IRequest<ApiResponse<ListViewModel<CategoryModel>>>
+public class GetAllCategoryQuery : GridDataFetchRequest, IRequest<ApiResponse<ListViewModel<CategoryModel>>>
 {
 }
 
