@@ -32,6 +32,13 @@ public class ExceptionHandlingMiddleware
                 return;
             }
 
+            if (exception is InvalidRequestFormatException invalidException)
+            {
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.Response.WriteAsJsonAsync($"{invalidException.Error}");
+                return;
+            }
+
             var problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,

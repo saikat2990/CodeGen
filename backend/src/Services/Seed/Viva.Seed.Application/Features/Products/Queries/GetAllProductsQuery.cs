@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Viva.Seed.Application.Interfaces;
+using Viva.Seed.Domain.Entities;
 using Viva.Shared.Contracts;
 using Viva.Shared.Helpers;
 using Viva.Shared.Infrastructures.RequestHandlers;
@@ -24,7 +25,7 @@ public class GetAllProductsQueryHandler : BaseRequestHandler<GetAllProductsQuery
         var query = _repository.GetAll().Include(x => x.Category);
 
         var listViewModel = await new GridDataFetchManager(_mapper)
-            .GetListViewDataAsync<Domain.Entities.Product, ProductModel>(query, request, ctn);
+            .GetListViewDataAsync<Product, ProductModel>(query, request, ctn);
 
         return ApiResponse<ListViewModel<ProductModel>>.SuccessResult(listViewModel);
     }
