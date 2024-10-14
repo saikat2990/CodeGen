@@ -32,10 +32,7 @@ public class GridQueryBuilder<T, TGridRequest>
             _query = operations.Sort(_query, _request.Sort);
         }
 
-        if (_request.Pagination != null)
-        {
-            _query = operations.Paginate(_query, _request.Pagination);
-        }
+        _query = operations.Paginate(_query, _request.Pagination ??= new Pagination());
 
         return (_query, totalCount);
     }
