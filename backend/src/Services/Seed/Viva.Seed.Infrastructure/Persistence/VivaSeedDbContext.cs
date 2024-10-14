@@ -15,6 +15,8 @@ public class VivaSeedDbContext : IdentityDbContext<ApplicationUser, Role, int>
     public DbSet<Domain.Entities.Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Right> Rights { get; set; }
+    public DbSet<AppComponent> AppComponents { get; set; }
+    public DbSet<AppMenu> AppMenus { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
