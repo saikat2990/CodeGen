@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Viva.Shared.Exceptions;
 using Viva.Shared.Models;
 
 namespace Viva.Shared.Helpers;
@@ -19,14 +20,21 @@ public class GridOperations
         foreach (var field in search.Fields)
         {
             // Ensure the field exists on the entity
-            var property = typeof(T).GetProperty(field);
-            if (property == null) continue;
-
+            var property = typeof(T).GetProperty(field) ?? throw new InvalidRequestFormatException($"Invalid search field: '{field}'");
             var left = Expression.Property(parameter, property);
-            Expression? right = null;
 
-            // Parse the value
-            var targetValue = Expression.Constant(Convert.ChangeType(search.Value, property.PropertyType));
+            object? convertedType = null;
+            try
+            {
+                convertedType = Convert.ChangeType(search.Value, property.PropertyType);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidRequestFormatException($"Invalid search value: '{search.Value}'");
+            }
+
+            var targetValue = Expression.Constant(convertedType);
+            if (targetValue is null) { continue; }
 
             // Generate the expression based on the operator
             Expression? filterExpression = search.Operator.ToLower() switch
@@ -60,7 +68,11 @@ public class GridOperations
 
     public IOrderedQueryable<T> Sort<T>(IQueryable<T> query, Sort sort)
     {
-        SortOrder direction = (SortOrder)Enum.Parse(typeof(SortOrder), sort.Direction, ignoreCase: true);
+        if (!Enum.TryParse(sort.Direction, ignoreCase: true, out SortOrder direction))
+        {
+            throw new InvalidRequestFormatException($"Invalid sort direction: '{sort.Direction}'");
+        }
+
         var orderBy = direction == SortOrder.Asc ? "OrderBy" : "OrderByDescending";
 
         ParameterExpression parameterExpression = Expression.Parameter(typeof(T), string.Empty);
@@ -78,7 +90,7 @@ public class GridOperations
     public IQueryable<T> Paginate<T>(IQueryable<T> query, Pagination pagination)
     {
         return query
-            .Skip((pagination.PageNumber - 1) * pagination.PageSize)
-            .Take(pagination.PageSize);
+            .Skip((pagination.GetPageNumber - 1) * pagination.GetPageSize)
+            .Take(pagination.GetPageSize);
     }
 }

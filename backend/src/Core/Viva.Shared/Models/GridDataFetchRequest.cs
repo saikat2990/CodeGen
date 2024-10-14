@@ -16,13 +16,17 @@ public class Pagination
 {
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
+
+    public int GetPageNumber => PageNumber > 0 ? PageNumber : 1;
+    public int GetPageSize => PageSize > 0 ? PageSize : 10;
 }
 
 public class Search
 {
     public string Value { get; set; }
-    public string Operator { get; set; } // <, >, <=, >=, =, contains
-    
+    public string Operator { get; set; } = "contains"; // <, >, <=, >=, =, contains
+
+
     private List<string> _fields = [];
 
     public List<string> Fields
