@@ -1,19 +1,31 @@
 import { Link } from "react-router-dom";
-import {
-  ChevronDown,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react";
+import { ChevronDown, Flower, Home, Package2 } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+
+const menuItems = [
+  {
+    title: "Dashboard",
+    icon: <Home className="h-4 w-4" />,
+    link: "/",
+  },
+  {
+    title: "Design Settings",
+    icon: <Flower className="h-4 w-4" />,
+    subItems: [
+      {
+        title: "Page",
+        subItems: [
+          { title: "Page Management", link: "#" },
+          { title: "Page Menu", link: "#" },
+        ],
+      },
+    ],
+  },
+];
 
 export default function SideMenu() {
   return (
@@ -26,205 +38,59 @@ export default function SideMenu() {
           <Package2 className="h-4 w-4" />
           <span className="sr-only">Acme Inc</span>
         </Link>
-        <div className="w-full">
-          <Collapsible>
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-              <div className="flex items-center gap-2">
-                <Home className="h-4 w-4" />
-                <span>Dashboard</span>
-              </div>
-              <ChevronDown className="h-4 w-4" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="ml-6 mt-2">
-              <Collapsible>
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                  <span>Overview</span>
-                  <ChevronDown className="h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Summary
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Analytics
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-        <div className="w-full">
-          <Collapsible>
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-              <div className="flex items-center gap-2">
-                <ShoppingCart className="h-4 w-4" />
-                <span>Orders</span>
-              </div>
-              <ChevronDown className="h-4 w-4" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="ml-6 mt-2">
-              <Collapsible>
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                  <span>Manage</span>
-                  <ChevronDown className="h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Recent Orders
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Pending Orders
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-        <div className="w-full">
-          <Collapsible>
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-              <div className="flex items-center gap-2">
-                <Package className="h-4 w-4" />
-                <span>Products</span>
-              </div>
-              <ChevronDown className="h-4 w-4" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="ml-6 mt-2">
-              <Collapsible>
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                  <span>Inventory</span>
-                  <ChevronDown className="h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Stock Levels
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Reorder Points
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-        <div className="w-full">
-          <Collapsible>
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-              <div className="flex items-center gap-2">
-                <Users2 className="h-4 w-4" />
-                <span>Customers</span>
-              </div>
-              <ChevronDown className="h-4 w-4" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="ml-6 mt-2">
-              <Collapsible>
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                  <span>Segments</span>
-                  <ChevronDown className="h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    VIP Customers
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    New Customers
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-        <div className="w-full">
-          <Collapsible>
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-              <div className="flex items-center gap-2">
-                <LineChart className="h-4 w-4" />
-                <span>Analytics</span>
-              </div>
-              <ChevronDown className="h-4 w-4" />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="ml-6 mt-2">
-              <Collapsible>
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                  <span>Reports</span>
-                  <ChevronDown className="h-4 w-4" />
-                </CollapsibleTrigger>
-                <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Sales Report
-                  </Link>
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-2 hover:bg-muted"
-                  >
-                    Customer Insights
-                  </Link>
-                </CollapsibleContent>
-              </Collapsible>
-            </CollapsibleContent>
-          </Collapsible>
-        </div>
-      </nav>
-      <div className="mt-auto p-6">
-        <Collapsible>
-          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-            <div className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span>Settings</span>
-            </div>
-            <ChevronDown className="h-4 w-4" />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="ml-6 mt-2">
+        {menuItems.map((menuItem, index) => (
+          <div className="w-full" key={index}>
             <Collapsible>
               <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                <span>Account</span>
-                <ChevronDown className="h-4 w-4" />
+                {!menuItem.subItems || menuItem.subItems.length === 0 ? (
+                  <Link
+                    className="flex items-center gap-2"
+                    to={menuItem.link ?? "#"}
+                  >
+                    {menuItem.icon}
+                    <span>{menuItem.title}</span>
+                  </Link>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2">
+                      {menuItem.icon}
+                      <span>{menuItem.title}</span>
+                    </div>
+                    <ChevronDown className="h-4 w-4" />
+                  </>
+                )}
               </CollapsibleTrigger>
-              <CollapsibleContent className="ml-6 mt-2 space-y-2">
-                <Link
-                  to="#"
-                  className="block rounded-lg px-4 py-2 hover:bg-muted"
-                >
-                  Profile
-                </Link>
-                <Link
-                  to="#"
-                  className="block rounded-lg px-4 py-2 hover:bg-muted"
-                >
-                  Preferences
-                </Link>
-              </CollapsibleContent>
+              {menuItem.subItems && (
+                <CollapsibleContent className="ml-6 mt-2">
+                  {menuItem.subItems.map((subItem, subIndex) => (
+                    <Collapsible key={subIndex}>
+                      <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
+                        <span>{subItem.title}</span>
+                        {subItem.subItems && (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </CollapsibleTrigger>
+                      {subItem.subItems && (
+                        <CollapsibleContent className="ml-6 mt-2 space-y-2">
+                          {subItem.subItems.map((linkItem, linkIndex) => (
+                            <Link
+                              key={linkIndex}
+                              to={linkItem.link}
+                              className="block rounded-lg px-4 py-2 hover:bg-muted"
+                            >
+                              {linkItem.title}
+                            </Link>
+                          ))}
+                        </CollapsibleContent>
+                      )}
+                    </Collapsible>
+                  ))}
+                </CollapsibleContent>
+              )}
             </Collapsible>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
+          </div>
+        ))}
+      </nav>
     </aside>
   );
 }
