@@ -3,9 +3,9 @@ using MediatR;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
-using Viva.Shared.Infrastructures.UnitOfWorks;
 
-namespace Viva.Seed.Application.Features.AppComponent.Queries;
+namespace Viva.Seed.Application.Features.AppComponents.Queries;
+
 public class GetAppComponentByIdQuery : IRequest<ApiResponse<AppComponentResponse>>
 {
     public int Id { get; set; }

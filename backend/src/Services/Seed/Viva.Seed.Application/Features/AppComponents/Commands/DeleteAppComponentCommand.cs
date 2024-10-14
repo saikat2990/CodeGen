@@ -6,7 +6,7 @@ using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 
-namespace Viva.Seed.Application.Features.AppComponent.Commands;
+namespace Viva.Seed.Application.Features.AppComponents.Commands;
 public class DeleteAppComponentCommand : IRequest<ApiResponse<bool>>
 {
     public List<int> IdList { get; set; }

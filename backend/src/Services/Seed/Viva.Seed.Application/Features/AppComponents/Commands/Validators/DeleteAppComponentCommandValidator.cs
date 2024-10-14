@@ -5,7 +5,7 @@ using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 
-namespace Viva.Seed.Application.Features.AppComponent.Commands.Validators;
+namespace Viva.Seed.Application.Features.AppComponents.Commands.Validators;
 
 public class DeleteAppComponentCommandValidator : BaseValidator<DeleteAppComponentCommand>
 {

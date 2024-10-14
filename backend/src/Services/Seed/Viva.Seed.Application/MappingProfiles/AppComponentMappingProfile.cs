@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Viva.Seed.Application.Features.AppComponent.Commands;
-using Viva.Seed.Application.Features.AppComponent.Queries;
+using Viva.Seed.Application.Features.AppComponents.Commands;
+using Viva.Seed.Application.Features.AppComponents.Queries;
 using Viva.Seed.Domain.Entities.defaults;
 
 namespace Viva.Seed.Application.MappingProfiles;

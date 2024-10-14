@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Viva.Shared.Infrastructures.UnitOfWorks;
 using Viva.Shared.Contracts;
 using Viva.Seed.Domain.Entities.defaults;
 using Viva.Shared.Infrastructures.RequestHandlers;

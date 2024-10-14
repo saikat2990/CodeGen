@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Viva.Seed.Application.Features.AppComponent.Commands;
-using Viva.Seed.Application.Features.AppComponent.Queries;
+using Viva.Seed.Application.Features.AppComponents.Commands;
+using Viva.Seed.Application.Features.AppComponents.Queries;
 
 namespace Viva.Seed.Api.Controllers;
 public class AppComponentController : BaseController
 {
     [HttpGet]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetList(GetAllAppComponentQuery query)
     {
-        var appComponents = await Sender.Send(new GetAllAppComponentQuery());
+        var appComponents = await Sender.Send(query);
         return Ok(appComponents);
     }
 

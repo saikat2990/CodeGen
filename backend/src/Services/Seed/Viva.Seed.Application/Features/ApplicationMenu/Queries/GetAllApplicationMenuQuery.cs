@@ -7,26 +7,27 @@ using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 using Viva.Shared.Contracts;
 using Viva.Seed.Application.Interfaces;
+using Viva.Shared.Models;
+using Viva.Shared.Helpers;
 
 namespace Viva.Seed.Application.Features.ApplicationMenu.Queries;
-public class GetAllApplicationMenuQuery : IRequest<ApiResponse<IEnumerable<ApplicationMenuResponse>>>
+public class GetAllApplicationMenuQuery : GridDataFetchRequest, IRequest<ApiResponse<ListViewModel<AppMenuResponse>>>
 {
 }
 
-public class GetAllApplicationMenusQueryHandler : BaseRequestHandler<GetAllApplicationMenuQuery, ApiResponse<IEnumerable<ApplicationMenuResponse>>, AppMenu, int>
+public class GetAllApplicationMenusQueryHandler : BaseRequestHandler<GetAllApplicationMenuQuery, ApiResponse<ListViewModel<AppMenuResponse>>, AppMenu, int>
 {
     public GetAllApplicationMenusQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 
-    public override async Task<ApiResponse<IEnumerable<ApplicationMenuResponse>>> HandleRequest(GetAllApplicationMenuQuery request, CancellationToken ctn)
+    public override async Task<ApiResponse<ListViewModel<AppMenuResponse>>> HandleRequest(GetAllApplicationMenuQuery request, CancellationToken ctn)
     {
-        var ApplicationMenus = await _repository
-            .GetAll()
-            .ProjectTo<ApplicationMenuResponse>(_mapper.ConfigurationProvider)
-            .ToListAsync(ctn);
+        var query = _repository.GetAll();
 
+        var listViewModel = await new GridDataFetchManager(_mapper)
+            .GetListViewDataAsync<AppMenu, AppMenuResponse>(query, request, ctn);
 
-        return ApiResponse<IEnumerable<ApplicationMenuResponse>>.SuccessResult(ApplicationMenus);
+        return ApiResponse<ListViewModel<AppMenuResponse>>.SuccessResult(listViewModel);
     }
 }

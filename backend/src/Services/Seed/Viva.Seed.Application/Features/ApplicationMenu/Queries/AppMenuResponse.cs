@@ -1,7 +1,7 @@
-﻿using Viva.Seed.Application.Features.AppComponent.Queries;
+﻿using Viva.Seed.Application.Features.AppComponents.Queries;
 
 namespace Viva.Seed.Application.Features.ApplicationMenu.Queries;
-public class ApplicationMenuResponse
+public class AppMenuResponse
 {
     public int Id { get; set; }
     public int? ParentId { get; set; }

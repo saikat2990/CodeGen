@@ -7,9 +7,9 @@ namespace Viva.Seed.Api.Controllers;
 public class CategoriesController : BaseController
 {
     [HttpPost]
-    public async Task<IActionResult> GetList(GetAllCategoryQuery command)
+    public async Task<IActionResult> GetList(GetAllCategoryQuery query)
     {
-        var categories = await Sender.Send(command);
+        var categories = await Sender.Send(query);
         return Ok(categories);
     }
 

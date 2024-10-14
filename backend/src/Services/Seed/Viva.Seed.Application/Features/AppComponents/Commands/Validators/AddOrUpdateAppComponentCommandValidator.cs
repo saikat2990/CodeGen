@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Viva.Seed.Application.Common;
-using Viva.Seed.Application.Features.AppComponent.Commands;
+using Viva.Seed.Application.Features.AppComponents.Commands;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 
-namespace Viva.Seed.Application.Features.AppComponent.Commands.Validators;
+namespace Viva.Seed.Application.Features.AppComponents.Commands.Validators;
 
 public class AddOrUpdateAppComponentCommandValidator : BaseValidator<AddOrUpdateAppComponentCommand>
 {
