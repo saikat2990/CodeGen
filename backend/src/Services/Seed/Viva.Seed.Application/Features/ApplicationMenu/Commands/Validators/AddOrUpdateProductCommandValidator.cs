@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Features.ApplicationMenu.Commands;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 
@@ -8,7 +9,7 @@ namespace ApplicationMenu.Application.Features.ApplicationMenu.Commands.Validato
 
 public class AddOrUpdateApplicationMenuCommandValidator : BaseValidator<AddOrUpdateApplicationMenuCommand>
 {
-    public AddOrUpdateApplicationMenuCommandValidator(IUnitOfWork uow)
+    public AddOrUpdateApplicationMenuCommandValidator(IVivaSeedUnitOfWork uow)
     {
         RuleFor(x => x.Id)
             .NotNull()

@@ -2,6 +2,7 @@
 using MediatR;
 using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Features.AppComponent.Queries;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
@@ -23,7 +24,7 @@ public class AddOrUpdateAppComponentCommand : IRequest<ApiResponse<AppComponentR
 
 public class AddOrUpdateAppComponentHandler : BaseRequestHandler<AddOrUpdateAppComponentCommand, ApiResponse<AppComponentResponse>, Domain.Entities.defaults.AppComponent, int>
 {
-    public AddOrUpdateAppComponentHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public AddOrUpdateAppComponentHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

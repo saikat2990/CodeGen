@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
@@ -13,7 +14,7 @@ public class GetAllAppComponentQuery : IRequest<ApiResponse<IEnumerable<AppCompo
 
 public class GetAllAppComponentQueryHandler : BaseRequestHandler<GetAllAppComponentQuery, ApiResponse<IEnumerable<AppComponentResponse>>, Domain.Entities.defaults.AppComponent, int>
 {
-    public GetAllAppComponentQueryHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public GetAllAppComponentQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

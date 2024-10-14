@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Features.AppComponent.Commands;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 
@@ -8,7 +9,7 @@ namespace Viva.Seed.Application.Features.AppComponent.Commands.Validators;
 
 public class AddOrUpdateAppComponentCommandValidator : BaseValidator<AddOrUpdateAppComponentCommand>
 {
-    public AddOrUpdateAppComponentCommandValidator(IUnitOfWork uow)
+    public AddOrUpdateAppComponentCommandValidator(IVivaSeedUnitOfWork uow)
     {
         RuleFor(x => x.Id)
             .MustAsync(async (rootObject, catId, ctn) =>

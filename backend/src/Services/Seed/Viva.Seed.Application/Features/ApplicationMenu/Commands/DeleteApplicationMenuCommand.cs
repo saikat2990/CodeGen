@@ -5,8 +5,9 @@ using Viva.Shared.Contracts;
 using Viva.Seed.Domain.Entities.defaults;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Seed.Application.Common;
+using Viva.Seed.Application.Interfaces;
 
-namespace ApplicationMenu.Application.Features.ApplicationMenu.Commands;
+namespace Viva.Seed.Application.Features.ApplicationMenu.Commands;
 public class DeleteApplicationMenuCommand : IRequest<ApiResponse<bool>>
 {
     public List<int> IdList { get; set; }
@@ -14,7 +15,7 @@ public class DeleteApplicationMenuCommand : IRequest<ApiResponse<bool>>
 
 public class DeleteApplicationMenuCommandHandler : BaseRequestHandler<DeleteApplicationMenuCommand, ApiResponse<bool>, AppMenu, int>
 {
-    public DeleteApplicationMenuCommandHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public DeleteApplicationMenuCommandHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

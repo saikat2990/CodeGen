@@ -1,6 +1,6 @@
 ﻿using Viva.Seed.Application.Features.AppComponent.Queries;
 
-namespace Product.Application.Features.ApplicationMenu.Queries;
+namespace Viva.Seed.Application.Features.ApplicationMenu.Queries;
 public class ApplicationMenuResponse
 {
     public int Id { get; set; }
@@ -13,7 +13,7 @@ public class ApplicationMenuResponse
     public string? Tooltip { get; set; }
     public int? RightId { get; set; }
     public int? ModuleId { get; set; }
-    public Guid? AppComponentId { get; set; }
+    public int? AppComponentId { get; set; }
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
     public AppComponentResponse? AppComponent { get; set; }

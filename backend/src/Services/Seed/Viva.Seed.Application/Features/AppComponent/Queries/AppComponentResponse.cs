@@ -1,4 +1,6 @@
-﻿using Product.Application.Features.ApplicationMenu.Queries;
+﻿
+
+using Viva.Seed.Application.Features.ApplicationMenu.Queries;
 
 namespace Viva.Seed.Application.Features.AppComponent.Queries;
 public class AppComponentResponse
@@ -12,5 +14,5 @@ public class AppComponentResponse
     public string PageType { get; set; }
     public string PageLayout { get; set; }
     public bool IsActive { get; set; } = true;
-    public IEnumerable<ApplicationMenuResponse> ApplicationMenus { get; set; }
+    public IEnumerable<ApplicationMenuResponse> AppMenus { get; set; }
 }

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Product.Application.Features.ApplicationMenu.Queries;
 using Viva.Seed.Domain.Entities.defaults;
 using Viva.Shared.Infrastructures.UnitOfWorks;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
+using Viva.Seed.Application.Interfaces;
 
-namespace ApplicationMenu.Application.Features.ApplicationMenu.Queries;
+namespace Viva.Seed.Application.Features.ApplicationMenu.Queries;
 public class GetApplicationMenuByIdQuery : IRequest<ApiResponse<ApplicationMenuResponse>>
 {
     public int Id { get; set; }
@@ -14,7 +14,7 @@ public class GetApplicationMenuByIdQuery : IRequest<ApiResponse<ApplicationMenuR
 
 public class GetApplicationMenuByIdQueryHandler : BaseRequestHandler<GetApplicationMenuByIdQuery, ApiResponse<ApplicationMenuResponse>, AppMenu, int>
 {
-    public GetApplicationMenuByIdQueryHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public GetApplicationMenuByIdQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 

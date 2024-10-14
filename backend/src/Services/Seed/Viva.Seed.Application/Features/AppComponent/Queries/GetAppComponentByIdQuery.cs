@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
@@ -12,7 +13,7 @@ public class GetAppComponentByIdQuery : IRequest<ApiResponse<AppComponentRespons
 
 public class GetAppComponentByIdQueryHandler : BaseRequestHandler<GetAppComponentByIdQuery, ApiResponse<AppComponentResponse>, Viva.Seed.Domain.Entities.defaults.AppComponent, int>
 {
-    public GetAppComponentByIdQueryHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper) { }
+    public GetAppComponentByIdQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper) { }
 
     public override async Task<ApiResponse<AppComponentResponse>> HandleRequest(GetAppComponentByIdQuery request, CancellationToken ctn)
     {

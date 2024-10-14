@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Product.Application.Features.ApplicationMenu.Queries;
 using Viva.Seed.Application.Common;
+using Viva.Seed.Application.Features.ApplicationMenu.Queries;
+using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Shared.Infrastructures.UnitOfWorks;
@@ -22,7 +23,7 @@ public class AddOrUpdateApplicationMenuCommand : IRequest<ApiResponse<Applicatio
 
 public class AddOrUpdateApplicationMenuHandler : BaseRequestHandler<AddOrUpdateApplicationMenuCommand, ApiResponse<ApplicationMenuResponse>, Viva.Seed.Domain.Entities.defaults.AppMenu, int>
 {
-    public AddOrUpdateApplicationMenuHandler(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+    public AddOrUpdateApplicationMenuHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {
     }
 
