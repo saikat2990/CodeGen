@@ -9,9 +9,9 @@ public class ProductMappingProfile : Profile
 {
     public ProductMappingProfile()
     {
-        CreateMap<Product, ProductModel>();
+        CreateMap<Domain.Entities.Product, ProductModel>();
             //.ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name));
 
-        CreateMap<AddOrUpdateProductCommand, Product>();
+        CreateMap<AddOrUpdateProductCommand, Domain.Entities.Product>();
     }
 }

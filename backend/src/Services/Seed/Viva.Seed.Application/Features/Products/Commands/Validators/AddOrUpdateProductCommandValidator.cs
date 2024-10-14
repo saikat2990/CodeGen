@@ -16,7 +16,7 @@ public class AddOrUpdateProductCommandValidator : BaseValidator<AddOrUpdateProdu
             .NotNull()
             .MustAsync(async (rootObject, id, ctn) =>
             {
-                var isProductExists = await uow.GetRepository<Product, int>()
+                var isProductExists = await uow.GetRepository<Domain.Entities.Product, int>()
                     .AnyAsync(x => x.Id == id, ctn);
 
                 return isProductExists;

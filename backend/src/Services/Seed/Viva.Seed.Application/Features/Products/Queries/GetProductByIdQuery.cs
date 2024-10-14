@@ -12,7 +12,7 @@ public class GetProductByIdQuery : IRequest<ApiResponse<ProductModel>>
     public int Id { get; set; }
 }
 
-public class GetProductByIdQueryHandler : BaseRequestHandler<GetProductByIdQuery, ApiResponse<ProductModel>, Product, int>
+public class GetProductByIdQueryHandler : BaseRequestHandler<GetProductByIdQuery, ApiResponse<ProductModel>, Domain.Entities.Product, int>
 {
     public GetProductByIdQueryHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {

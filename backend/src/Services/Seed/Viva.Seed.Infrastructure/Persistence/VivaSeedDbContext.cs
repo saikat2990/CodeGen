@@ -12,7 +12,7 @@ public class VivaSeedDbContext : IdentityDbContext<ApplicationUser, Role, int>
     {
     }
 
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Domain.Entities.Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Right> Rights { get; set; }
 
