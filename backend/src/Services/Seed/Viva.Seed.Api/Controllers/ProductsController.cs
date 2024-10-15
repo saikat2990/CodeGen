@@ -6,7 +6,7 @@ namespace Viva.Seed.Api.Controllers;
 
 public class ProductsController : BaseController
 {
-    [HttpPost("list")]
+    [HttpPost]
     public async Task<IActionResult> GetList(GetAllProductsQuery query)
     {
         var products = await Sender.Send(query);

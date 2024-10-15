@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Viva.Shared.Contracts;
 using Viva.Seed.Domain.Entities;
+using Viva.Seed.Domain.Entities.defaults;
 
 namespace Viva.Seed.Infrastructure.Persistence;
 
@@ -14,6 +15,8 @@ public class VivaSeedDbContext : IdentityDbContext<ApplicationUser, Role, int>
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Right> Rights { get; set; }
+    public DbSet<AppComponent> AppComponents { get; set; }
+    public DbSet<AppMenu> AppMenus { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -36,7 +39,7 @@ public class VivaSeedDbContext : IdentityDbContext<ApplicationUser, Role, int>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema(Constants.SeedSchema);
+        modelBuilder.HasDefaultSchema(InfraConstants.SeedSchema);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VivaSeedDbContext).Assembly);
 

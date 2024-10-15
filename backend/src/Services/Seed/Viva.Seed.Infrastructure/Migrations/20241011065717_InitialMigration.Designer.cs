@@ -12,7 +12,7 @@ using Viva.Seed.Infrastructure.Persistence;
 namespace Viva.Seed.Infrastructure.Migrations
 {
     [DbContext(typeof(VivaSeedDbContext))]
-    [Migration("20241009154439_InitialMigration")]
+    [Migration("20241011065717_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -129,89 +129,6 @@ namespace Viva.Seed.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", "viva_seed");
                 });
 
-            modelBuilder.Entity("RightRole", b =>
-                {
-                    b.Property<int>("PermissionsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RightsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PermissionsId", "RightsId");
-
-                    b.HasIndex("RightsId");
-
-                    b.ToTable("RightRole", "viva_seed");
-                });
-
-            modelBuilder.Entity("Viva.Seed.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", "viva_seed");
-                });
-
             modelBuilder.Entity("Viva.Seed.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -295,7 +212,180 @@ namespace Viva.Seed.Infrastructure.Migrations
                     b.ToTable("Product", "viva_seed");
                 });
 
-            modelBuilder.Entity("Viva.Seed.Domain.Entities.Right", b =>
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.AppComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EntryFunc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageLayout")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppComponent", "viva_seed");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.AppMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BadgeText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RightId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tooltip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppComponentId");
+
+                    b.HasIndex("RightId");
+
+                    b.ToTable("AppMenu", "viva_seed");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.ApplicationUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", "viva_seed");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.Right", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -312,7 +402,25 @@ namespace Viva.Seed.Infrastructure.Migrations
                     b.ToTable("Right", "viva_seed");
                 });
 
-            modelBuilder.Entity("Viva.Seed.Domain.Entities.Role", b =>
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.RightRole", b =>
+                {
+                    b.Property<int>("RightId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("RightId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RightRole", "viva_seed");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,7 +452,7 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Viva.Seed.Domain.Entities.Role", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -353,7 +461,7 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("Viva.Seed.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -362,7 +470,7 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("Viva.Seed.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,13 +479,13 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Viva.Seed.Domain.Entities.Role", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Viva.Seed.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -386,24 +494,9 @@ namespace Viva.Seed.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("Viva.Seed.Domain.Entities.ApplicationUser", null)
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RightRole", b =>
-                {
-                    b.HasOne("Viva.Seed.Domain.Entities.Right", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Viva.Seed.Domain.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RightsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -419,9 +512,60 @@ namespace Viva.Seed.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.AppMenu", b =>
+                {
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.AppComponent", "AppComponent")
+                        .WithMany("AppMenus")
+                        .HasForeignKey("AppComponentId");
+
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.Right", "Right")
+                        .WithMany("AppMenus")
+                        .HasForeignKey("RightId");
+
+                    b.Navigation("AppComponent");
+
+                    b.Navigation("Right");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.RightRole", b =>
+                {
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.Right", "Right")
+                        .WithMany("RightRoles")
+                        .HasForeignKey("RightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Viva.Seed.Domain.Entities.defaults.Role", "Role")
+                        .WithMany("RightRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Right");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Viva.Seed.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.AppComponent", b =>
+                {
+                    b.Navigation("AppMenus");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.Right", b =>
+                {
+                    b.Navigation("AppMenus");
+
+                    b.Navigation("RightRoles");
+                });
+
+            modelBuilder.Entity("Viva.Seed.Domain.Entities.defaults.Role", b =>
+                {
+                    b.Navigation("RightRoles");
                 });
 #pragma warning restore 612, 618
         }

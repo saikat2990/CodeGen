@@ -6,10 +6,10 @@ namespace Viva.Seed.Api.Controllers;
 
 public class CategoriesController : BaseController
 {
-    [HttpPost("list")]
+    [HttpPost]
     public async Task<IActionResult> GetList(GetAllCategoryQuery query)
     {
-        var categories = await Sender.Send(new GetAllCategoryQuery());
+        var categories = await Sender.Send(query);
         return Ok(categories);
     }
 

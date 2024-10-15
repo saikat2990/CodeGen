@@ -3,9 +3,9 @@ using MediatR;
 using Viva.Shared.Contracts;
 using Viva.Shared.Infrastructures.RequestHandlers;
 using Viva.Seed.Application.Common;
-using Viva.Seed.Application.Features.Categories.Queries;
 using Viva.Seed.Application.Interfaces;
 using Viva.Seed.Domain.Entities;
+using Viva.Seed.Application.Features.Categories.Queries;
 
 namespace Viva.Seed.Application.Features.Categories.Commands;
 

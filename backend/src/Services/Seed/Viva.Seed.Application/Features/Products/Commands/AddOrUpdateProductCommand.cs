@@ -20,7 +20,7 @@ public class AddOrUpdateProductCommand : IRequest<ApiResponse<int>>
     public int CategoryId { get; set; }
 }
 
-public class AddOrUpdateProductCommandHandler : BaseRequestHandler<AddOrUpdateProductCommand, ApiResponse<int>, Product, int>
+public class AddOrUpdateProductCommandHandler : BaseRequestHandler<AddOrUpdateProductCommand, ApiResponse<int>, Domain.Entities.Product, int>
 {
     public AddOrUpdateProductCommandHandler(IVivaSeedUnitOfWork uow, IMapper mapper) : base(uow, mapper)
     {

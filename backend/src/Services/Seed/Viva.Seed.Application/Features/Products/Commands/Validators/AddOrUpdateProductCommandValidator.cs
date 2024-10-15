@@ -3,6 +3,7 @@ using Viva.Seed.Application.Common;
 using Viva.Seed.Application.Interfaces;
 using Viva.Shared.Behaviors;
 using Viva.Seed.Domain.Entities;
+using Viva.Seed.Application.Features.Products.Commands;
 
 namespace Viva.Seed.Application.Features.Products.Commands.Validators;
 
@@ -15,7 +16,7 @@ public class AddOrUpdateProductCommandValidator : BaseValidator<AddOrUpdateProdu
             .NotNull()
             .MustAsync(async (rootObject, id, ctn) =>
             {
-                var isProductExists = await uow.GetRepository<Product, int>()
+                var isProductExists = await uow.GetRepository<Domain.Entities.Product, int>()
                     .AnyAsync(x => x.Id == id, ctn);
 
                 return isProductExists;
