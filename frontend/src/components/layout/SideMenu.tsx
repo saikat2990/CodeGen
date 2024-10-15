@@ -5,6 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { ApplicationMenu } from "@/pages/ApplicationMenus";
 
 const menuItems = [
   {
@@ -19,15 +20,15 @@ const menuItems = [
       {
         title: "Page",
         subItems: [
-          { title: "Page Management", link: "#" },
-          { title: "Page Menu", link: "#" },
+          { title: "Page Management", link: "/pages" },
+          { title: "Page Menu", link: "/menus" },
         ],
       },
     ],
   },
 ];
 
-export default function SideMenu() {
+export default function SideMenu(props: { menus: ApplicationMenu[] }) {
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-64 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-start gap-4 p-6">
@@ -38,31 +39,40 @@ export default function SideMenu() {
           <Package2 className="h-4 w-4" />
           <span className="sr-only">Acme Inc</span>
         </Link>
-        {menuItems.map((menuItem, index) => (
+        {[
+          ...menuItems.slice(0, 1), // Get the first item
+          ...props.menus.map((menu: ApplicationMenu) => ({
+            title: menu.name,
+            icon: <></>,
+            link: menu.url,
+            subItems: undefined,
+          })), // Insert new items after the first item
+          ...menuItems.slice(1), // Get the rest of the original array
+        ].map((menu, index) => (
           <div className="w-full" key={index}>
             <Collapsible>
               <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
-                {!menuItem.subItems || menuItem.subItems.length === 0 ? (
+                {!menu.subItems || menu.subItems.length === 0 ? (
                   <Link
                     className="flex items-center gap-2"
-                    to={menuItem.link ?? "#"}
+                    to={menu.link ?? "#"}
                   >
-                    {menuItem.icon}
-                    <span>{menuItem.title}</span>
+                    {menu.icon}
+                    <span>{menu.title}</span>
                   </Link>
                 ) : (
                   <>
                     <div className="flex items-center gap-2">
-                      {menuItem.icon}
-                      <span>{menuItem.title}</span>
+                      {menu.icon}
+                      <span>{menu.title}</span>
                     </div>
                     <ChevronDown className="h-4 w-4" />
                   </>
                 )}
               </CollapsibleTrigger>
-              {menuItem.subItems && (
+              {menu.subItems && (
                 <CollapsibleContent className="ml-6 mt-2">
-                  {menuItem.subItems.map((subItem, subIndex) => (
+                  {menu.subItems.map((subItem, subIndex) => (
                     <Collapsible key={subIndex}>
                       <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left hover:bg-muted">
                         <span>{subItem.title}</span>

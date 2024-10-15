@@ -60,14 +60,14 @@ export type Payment = {
 //     enableHiding: false,
 //   },
 //   {
-//     accessorKey: "status",
+//     fieldName: "status",
 //     header: "Status",
 //     cell: ({ row }) => (
 //       <div className="capitalize">{row.getValue("status")}</div>
 //     ),
 //   },
 //   {
-//     accessorKey: "email",
+//     fieldName: "email",
 //     header: ({ column }) => {
 //       return (
 //         <Button
@@ -82,7 +82,7 @@ export type Payment = {
 //     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
 //   },
 //   {
-//     accessorKey: "amount",
+//     fieldName: "amount",
 //     header: () => <div className="text-right">Amount</div>,
 //     cell: ({ row }) => {
 //       const amount = parseFloat(row.getValue("amount"));

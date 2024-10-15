@@ -45,16 +45,16 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
 
         case "text":
           return {
-            accessorKey: colDef.accessorKey,
+            fieldName: colDef.fieldName,
             header: colDef.header,
-            cell: ({ row }) => <div>{row.getValue(colDef.accessorKey)}</div>,
+            cell: ({ row }) => <div>{row.getValue(colDef.fieldName)}</div>,
             enableSorting: colDef.enableSorting ?? true,
             enableHiding: colDef.enableHiding ?? true,
           };
 
         case "email":
           return {
-            accessorKey: colDef.accessorKey,
+            fieldName: colDef.fieldName,
             header: ({ column }) => {
               return (
                 <Button
@@ -69,9 +69,7 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
               );
             },
             cell: ({ row }) => (
-              <div className="lowercase">
-                {row.getValue(colDef.accessorKey)}
-              </div>
+              <div className="lowercase">{row.getValue(colDef.fieldName)}</div>
             ),
             enableSorting: colDef.enableSorting ?? true,
             enableHiding: colDef.enableHiding ?? true,
@@ -79,10 +77,10 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
 
         case "amount":
           return {
-            accessorKey: colDef.accessorKey,
+            fieldName: colDef.fieldName,
             header: () => <div className="text-right">{colDef.header}</div>,
             cell: ({ row }) => {
-              const amount = parseFloat(row.getValue(colDef.accessorKey));
+              const amount = parseFloat(row.getValue(colDef.fieldName));
               const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
@@ -133,20 +131,7 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
     .filter(Boolean); // Filter out any undefined or null values
 };
 
-const Test: React.FC = ({ pageId }: { pageId: number }) => {
-  // todo: api call to get the template data using page id
-  // get page
-  // if no layout, create a new template
-  // for list page:
-  // get data using the model name and find the column keys to generate a json page layout and acknowledge backend
-  // if no data available, do nothing
-  // if layout is true the render
-
-  /*
-    1. get page 
-
-  */
-
+const Test: React.FC = () => {
   const json = {
     title: "Test Title",
     subtitle: "Test Subtitle",
@@ -158,28 +143,28 @@ const Test: React.FC = ({ pageId }: { pageId: number }) => {
       // },
       {
         type: "text",
-        accessorKey: "id",
+        fieldName: "id",
         header: "Code",
         enableSorting: true,
         enableHiding: true,
       },
       {
         type: "text",
-        accessorKey: "status",
+        fieldName: "status",
         header: "Status",
         enableSorting: true,
         enableHiding: true,
       },
       {
         type: "email",
-        accessorKey: "email",
+        fieldName: "email",
         header: "Email",
         enableSorting: true,
         enableHiding: true,
       },
       {
         type: "amount",
-        accessorKey: "amount",
+        fieldName: "amount",
         header: "Amount",
         enableSorting: true,
         enableHiding: true,

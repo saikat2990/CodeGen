@@ -2,12 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import Test from "./pages/ListViewEngine";
-import TestDesign from "./pages/ListViewEngine/design";
 import Layout from "./components/layout";
+import Home from "./pages/Home";
+import ApplicationPages from "./pages/ApplicationPages";
+import ApplicationMenus, { ApplicationMenu } from "./pages/ApplicationMenus";
+import LocalStorageCRUD from "@/lib/local-storage-crud";
+import DynamicPage from "./pages/DynamicPage";
 
 const App: React.FC = () => {
+  const menus = LocalStorageCRUD.getItems<ApplicationMenu>("application_menus");
+
   return (
     <Router>
       <Routes>
@@ -15,10 +19,20 @@ const App: React.FC = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         {/* Protected routes */}
-        <Route element={<Layout />}>
+        <Route element={<Layout menus={menus} />}>
           <Route path="/" element={<Home />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/test/design" element={<TestDesign />} />
+          <Route path="/pages" element={<ApplicationPages />} />
+          <Route path="/menus" element={<ApplicationMenus />} />
+          {/* Dynamically added routes */}
+          {menus.map((menu: ApplicationMenu, index: number) => {
+            return (
+              <Route
+                key={index}
+                path={menu.url}
+                element={<DynamicPage id={menu.pageId} />}
+              />
+            );
+          })}
         </Route>
       </Routes>
     </Router>
