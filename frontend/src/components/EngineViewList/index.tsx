@@ -1,6 +1,9 @@
+import React, { useState, useEffect } from "react";
 import DataTable from "@/components/general/DataTable";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,54 +12,137 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
-// A method that will take JSON input and create column definitions
-export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
-  return columnDefs
-    .map((colDef) => {
-      switch (colDef.type) {
-        // case "select":
-        //   return {
-        //     id: "select",
-        //     header: ({ table }) => (
-        //       <Checkbox
-        //         checked={
-        //           table.getIsAllPageRowsSelected() ||
-        //           (table.getIsSomePageRowsSelected() && "indeterminate")
-        //         }
-        //         onCheckedChange={(value) =>
-        //           table.toggleAllPageRowsSelected(!!value)
-        //         }
-        //         aria-label="Select all"
-        //       />
-        //     ),
-        //     cell: ({ row }) => (
-        //       <Checkbox
-        //         checked={row.getIsSelected()}
-        //         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        //         aria-label="Select row"
-        //       />
-        //     ),
-        //     enableSorting: colDef.enableSorting ?? false,
-        //     enableHiding: colDef.enableHiding ?? false,
-        //   };
+interface TemplateConfig {
+  title: string;
+  subtitle: string;
+  columns: any[];
+  searchPlaceholder?: string;
+  searchableColumn?: string;
+  actions?: {
+    label: string;
+    items: { label: string; action: string }[];
+  };
+}
 
-        case "text":
-          return {
-            fieldName: colDef.fieldName,
-            header: colDef.header,
-            cell: ({ row }) => <div>{row.getValue(colDef.fieldName)}</div>,
-            enableSorting: colDef.enableSorting ?? true,
-            enableHiding: colDef.enableHiding ?? true,
-          };
+interface EngineViewListProps {
+  pageId: string | number;
+}
 
-        case "email":
-          return {
-            fieldName: colDef.fieldName,
-            header: ({ column }) => {
-              return (
+const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
+  const [loading, setLoading] = useState(true);
+  const [template, setTemplate] = useState<TemplateConfig | null>(null);
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchTemplateAndData = async () => {
+      try {
+        // Simulate API call for template configuration
+        const mockTemplateData: TemplateConfig = {
+          title: "Mock Table",
+          subtitle: "This is a mock table for testing",
+          columns: [
+            {
+              type: "text",
+              fieldName: "id",
+              header: "ID",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "text",
+              fieldName: "name",
+              header: "Name",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "text",
+              fieldName: "name",
+              header: "Name",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "text",
+              fieldName: "name",
+              header: "Name",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "email",
+              fieldName: "email",
+              header: "Email",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "amount",
+              fieldName: "amount",
+              header: "Amount",
+              enableSorting: true,
+              enableHiding: true,
+            },
+            {
+              type: "actions",
+            },
+          ],
+          searchPlaceholder: "Search by name",
+          searchableColumn: "name",
+          actions: {
+            label: "Actions",
+            items: [
+              { label: "View", action: "view" },
+              { label: "Edit", action: "edit" },
+              { label: "Delete", action: "delete" },
+            ],
+          },
+        };
+
+        // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setTemplate(mockTemplateData);
+
+        // Simulate API call for table data
+        const mockTableData = [
+          { id: 1, name: "John Doe", email: "john@example.com", amount: 100 },
+          { id: 2, name: "Jane Smith", email: "jane@example.com", amount: 200 },
+          { id: 3, name: "Bob Johnson", email: "bob@example.com", amount: 300 },
+          // Add more mock data as needed
+        ];
+
+        // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setData(mockTableData);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTemplateAndData();
+  }, [pageId]);
+
+  const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
+    return columnDefs
+      .map((colDef) => {
+        switch (colDef.type) {
+          case "text":
+            return {
+              accessorKey: colDef.fieldName,
+              header: colDef.header,
+              cell: ({ row }) => <div>{row.getValue(colDef.fieldName)}</div>,
+              enableSorting: colDef.enableSorting ?? true,
+              enableHiding: colDef.enableHiding ?? true,
+            };
+
+          case "email":
+            return {
+              accessorKey: colDef.fieldName,
+              header: ({ column }) => (
                 <Button
                   variant="ghost"
                   onClick={() =>
@@ -66,39 +152,38 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
                   {colDef.header}
                   <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-              );
-            },
-            cell: ({ row }) => (
-              <div className="lowercase">{row.getValue(colDef.fieldName)}</div>
-            ),
-            enableSorting: colDef.enableSorting ?? true,
-            enableHiding: colDef.enableHiding ?? true,
-          };
+              ),
+              cell: ({ row }) => (
+                <div className="lowercase">
+                  {row.getValue(colDef.fieldName)}
+                </div>
+              ),
+              enableSorting: colDef.enableSorting ?? true,
+              enableHiding: colDef.enableHiding ?? true,
+            };
 
-        case "amount":
-          return {
-            fieldName: colDef.fieldName,
-            header: () => <div className="text-right">{colDef.header}</div>,
-            cell: ({ row }) => {
-              const amount = parseFloat(row.getValue(colDef.fieldName));
-              const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(amount);
+          case "amount":
+            return {
+              accessorKey: colDef.fieldName,
+              header: () => <div className="text-right">{colDef.header}</div>,
+              cell: ({ row }) => {
+                const amount = parseFloat(row.getValue(colDef.fieldName));
+                const formatted = new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(amount);
+                return (
+                  <div className="text-right font-medium">{formatted}</div>
+                );
+              },
+              enableSorting: colDef.enableSorting ?? true,
+              enableHiding: colDef.enableHiding ?? true,
+            };
 
-              return <div className="text-right font-medium">{formatted}</div>;
-            },
-            enableSorting: colDef.enableSorting ?? true,
-            enableHiding: colDef.enableHiding ?? true,
-          };
-
-        case "actions":
-          return {
-            id: "actions",
-            header: () => <div className="text-left">Actions</div>,
-            cell: ({ row }) => {
-              const payment = row.original;
-              return (
+          case "actions":
+            return {
+              id: "actions",
+              cell: ({ row }) => (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
@@ -107,136 +192,65 @@ export const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem
-                      onClick={() => navigator.clipboard.writeText(payment.id)}
-                    >
-                      Copy payment ID
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>View customer</DropdownMenuItem>
-                    <DropdownMenuItem>View payment details</DropdownMenuItem>
+                    <DropdownMenuLabel>
+                      {template?.actions?.label || "Actions"}
+                    </DropdownMenuLabel>
+                    {template?.actions?.items.map((item, index) => (
+                      <DropdownMenuItem
+                        key={index}
+                        onClick={() => handleAction(item.action, row.original)}
+                      >
+                        {item.label}
+                      </DropdownMenuItem>
+                    ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
-              );
-            },
-            enableSorting: colDef.enableSorting ?? false,
-            enableHiding: colDef.enableHiding ?? false,
-          };
+              ),
+              enableSorting: false,
+              enableHiding: false,
+            };
 
-        default:
-          return null;
-      }
-    })
-    .filter(Boolean); // Filter out any undefined or null values
-};
-
-const EngineViewList: React.FC = ({ name }: { name: string }) => {
-  // todo: api call to get the template data using page id
-  // get page
-  // if no layout, create a new template
-  // for list page:
-  // get data using the model name and find the column keys to generate a json page layout and acknowledge backend
-  // if no data available, do nothing
-  // if layout is true the render
-
-  /*
-    1. get page 
-
-  */
-
-  const json = {
-    title: "Test Title",
-    subtitle: "Test Subtitle",
-    columns: [
-      // {
-      //   type: "select",
-      //   enableSorting: false,
-      //   enableHiding: false,
-      // },
-      {
-        type: "text",
-        fieldName: "id",
-        header: "Code",
-        enableSorting: true,
-        enableHiding: true,
-      },
-      {
-        type: "text",
-        fieldName: "status",
-        header: "Status",
-        enableSorting: true,
-        enableHiding: true,
-      },
-      {
-        type: "email",
-        fieldName: "email",
-        header: "Email",
-        enableSorting: true,
-        enableHiding: true,
-      },
-      {
-        type: "amount",
-        fieldName: "amount",
-        header: "Amount",
-        enableSorting: true,
-        enableHiding: true,
-      },
-      {
-        type: "actions",
-        enableSorting: false,
-        enableHiding: false,
-      },
-    ],
-    data: [
-      {
-        id: "m5gr84i9",
-        amount: "316",
-        status: "success",
-        email: "ken99@yahoo.com",
-      },
-      {
-        id: "3u1reuv4",
-        amount: "242",
-        status: "success",
-        email: "Abe45@gmail.com",
-      },
-      {
-        id: "derv1ws0",
-        amount: "837",
-        status: "processing",
-        email: "Monserrat44@gmail.com",
-      },
-      {
-        id: "5kma53ae",
-        amount: "874",
-        status: "success",
-        email: "Silas22@gmail.com",
-      },
-      {
-        id: "bhqecj4p",
-        amount: "721",
-        status: "failed",
-        email: "carmella@hotmail.com",
-      },
-    ],
-    searchPlaceholder: "Search taka",
-    searchableColumn: "amount",
+          default:
+            return null;
+        }
+      })
+      .filter(Boolean) as ColumnDef<any>[];
   };
+
+  const handleAction = (action: string, rowData: any) => {
+    // Implement action handling logic here
+    console.log(`Action: ${action}`, rowData);
+  };
+
+  if (loading) {
+    return (
+      <div className="sm:pl-64">
+        <Skeleton className="h-8 w-[250px] mb-4" />
+        <Skeleton className="h-4 w-[300px] mb-8" />
+        <Skeleton className="h-[400px] w-full" />
+      </div>
+    );
+  }
+
+  if (!template) {
+    return <div className="sm:pl-64">Error loading template</div>;
+  }
 
   return (
     <div className="sm:pl-64">
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">{name}</h2>
-          <p className="text-muted-foreground">{json.subtitle}</p>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {template.title}
+          </h2>
+          <p className="text-muted-foreground">{template.subtitle}</p>
         </div>
       </div>
       <DataTable
-        columns={createColumnsFromJson(json.columns)}
-        data={json.data}
-        searchPlaceholder={json.searchPlaceholder}
-        searchableColumn={json.searchableColumn}
+        columns={createColumnsFromJson(template.columns)}
+        data={data}
+        searchPlaceholder={template.searchPlaceholder}
+        searchableColumn={template.searchableColumn}
       />
     </div>
   );
