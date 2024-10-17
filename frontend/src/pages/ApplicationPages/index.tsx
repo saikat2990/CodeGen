@@ -28,15 +28,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+  SheetClose,
+} from "@/components/ui/sheet";
 import LocalStorageCRUD from "@/lib/local-storage-crud";
 
 // Define the schema for our form data
@@ -68,42 +68,8 @@ const serviceNames = ["GetEmployee", "GetProduct"];
 
 const CrudPage: React.FC = () => {
   const [data, setData] = useState<DataItem[]>([]);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
-
-  useEffect(() => {
-    // Load application_pages when component mounts
-    setData(LocalStorageCRUD.getItems<DataItem>("application_pages"));
-  }, []);
-
-  const addData = (name: string, pageType: string, serviceName: string) => {
-    const newData: DataItem = { id: Date.now(), name, pageType, serviceName };
-
-    LocalStorageCRUD.setItem("application_pages", newData);
-
-    setData([...data, newData]);
-  };
-
-  const updateUser = (
-    id: number,
-    name: string,
-    pageType: string,
-    serviceName: string
-  ) => {
-    const updatedUser: DataItem = { id, name, pageType, serviceName };
-
-    LocalStorageCRUD.setItem("application_pages", updatedUser);
-
-    setData(
-      data.map((datum: DataItem) => (datum.id === id ? updatedUser : datum))
-    );
-  };
-
-  const deleteData = (id: number) => {
-    LocalStorageCRUD.deleteItem("application_pages", id);
-
-    setData(data.filter((datum: DataItem) => datum.id !== id));
-  };
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -114,6 +80,35 @@ const CrudPage: React.FC = () => {
     },
   });
 
+  useEffect(() => {
+    // Load application_pages when component mounts
+    setData(LocalStorageCRUD.getItems<DataItem>("application_pages"));
+  }, []);
+
+  const addData = (name: string, pageType: string, serviceName: string) => {
+    const newData: DataItem = { id: Date.now(), name, pageType, serviceName };
+    LocalStorageCRUD.setItem("application_pages", newData);
+    setData([...data, newData]);
+  };
+
+  const updateUser = (
+    id: number,
+    name: string,
+    pageType: string,
+    serviceName: string
+  ) => {
+    const updatedUser: DataItem = { id, name, pageType, serviceName };
+    LocalStorageCRUD.setItem("application_pages", updatedUser);
+    setData(
+      data.map((datum: DataItem) => (datum.id === id ? updatedUser : datum))
+    );
+  };
+
+  const deleteData = (id: number) => {
+    LocalStorageCRUD.deleteItem("application_pages", id);
+    setData(data.filter((datum: DataItem) => datum.id !== id));
+  };
+
   const onSubmit = (values: FormData) => {
     if (editingId !== null) {
       updateUser(editingId, values.name, values.pageType, values.serviceName);
@@ -121,16 +116,14 @@ const CrudPage: React.FC = () => {
     } else {
       addData(values.name, values.pageType, values.serviceName);
     }
-
     form.reset();
-    setIsDrawerOpen(false);
+    setIsSheetOpen(false);
   };
 
   const handleEdit = (item: DataItem) => {
     setEditingId(item.id);
     form.reset(item);
-
-    setIsDrawerOpen(true);
+    setIsSheetOpen(true);
   };
 
   const handleDelete = (id: number) => {
@@ -140,9 +133,8 @@ const CrudPage: React.FC = () => {
   return (
     <div className="container mx-auto p-4 sm:pl-64">
       <h1 className="text-2xl font-bold mb-4">Application Pages</h1>
-
-      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <DrawerTrigger asChild>
+      <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        <SheetTrigger asChild>
           <Button
             onClick={() => {
               setEditingId(null);
@@ -151,21 +143,21 @@ const CrudPage: React.FC = () => {
           >
             Create New Data
           </Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>
+        </SheetTrigger>
+        <SheetContent side="right" className="min-w-[50%] sm:w-[540px]">
+          <SheetHeader>
+            <SheetTitle>
               {editingId !== null ? "Edit Data" : "Create New Data"}
-            </DrawerTitle>
-            <DrawerDescription>
+            </SheetTitle>
+            <SheetDescription>
               Fill in the form to {editingId !== null ? "update" : "create"}{" "}
               data.
-            </DrawerDescription>
-          </DrawerHeader>
+            </SheetDescription>
+          </SheetHeader>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 p-4"
+              className="space-y-8 py-4"
             >
               <FormField
                 control={form.control}
@@ -234,16 +226,16 @@ const CrudPage: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <DrawerFooter>
+              <SheetFooter>
                 <Button type="submit">Submit</Button>
-                <DrawerClose asChild>
+                <SheetClose asChild>
                   <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
+                </SheetClose>
+              </SheetFooter>
             </form>
           </Form>
-        </DrawerContent>
-      </Drawer>
+        </SheetContent>
+      </Sheet>
 
       <div className="mt-8">
         <Table>

@@ -237,7 +237,7 @@ const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
   }
 
   return (
-    <div className="sm:pl-64">
+    <div className="p-8 sm:pl-96">
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
@@ -245,6 +245,32 @@ const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
           </h2>
           <p className="text-muted-foreground">{template.subtitle}</p>
         </div>
+        {isZenMood && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Add Column</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Add New Column</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Enter the name for the new column.
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  <Input
+                    id="newColumn"
+                    value={newColumnName}
+                    onChange={(e) => setNewColumnName(e.target.value)}
+                    placeholder="Enter column name"
+                  />
+                  <Button onClick={handleAddColumn}>Add Column</Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
       <DataTable
         columns={createColumnsFromJson(template.columns)}
@@ -252,6 +278,45 @@ const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
         searchPlaceholder={template.searchPlaceholder}
         searchableColumn={template.searchableColumn}
       />
+
+      <Sheet open={isEditSheetOpen} onOpenChange={setIsEditSheetOpen}>
+        <SheetContent side="right" className="w-[50%] sm:w-[540px]">
+          <SheetHeader>
+            <SheetTitle>Edit Item</SheetTitle>
+            <SheetDescription>
+              Make changes to the item here. Click save when you're done.
+            </SheetDescription>
+          </SheetHeader>
+          <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
+            {editingItem &&
+              Object.entries(editingItem).map(([key, value]) => (
+                <div key={key} className="space-y-2">
+                  <label htmlFor={key} className="text-sm font-medium">
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </label>
+                  <Input
+                    id={key}
+                    value={value}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        [key]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              ))}
+            <SheetFooter>
+              <Button type="submit">Save changes</Button>
+              <SheetClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </SheetClose>
+            </SheetFooter>
+          </form>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
