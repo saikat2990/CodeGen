@@ -140,3 +140,71 @@ let detailPageLayoutTemplate = {
     }
 ] 
 }
+
+/* 
+ const [template, setTemplate] = useState<ListPageLayoutTemplate>({
+    pageId: "1",
+    pageName: "Default Page",
+    templateName: "DefaultTemplate",
+    serviceName: "DefaultService",
+    entryFunction: "getAll",
+    header: {
+      title: "Default List Page",
+      subTitle: "This is a default subtitle",
+      description: "This is a default description",
+    },
+    actions: [
+      {
+        buttonName: "New",
+        actionType: "",
+        drawerConponentId: "id",
+        url: "",
+        functionName: "functionName",
+        visible: true,
+        icon: "",
+        text: "New",
+        position: "",
+        showCaption: true,
+      },
+      {
+        buttonName: "Delete",
+        actionType: "",
+        drawerConponentId: "id",
+        url: "",
+        functionName: "functionName",
+        visible: true,
+        icon: "",
+        text: "Delete",
+        position: "",
+        showCaption: true,
+      },
+    ],
+    columns: [
+      {
+        name: "id",
+        fieldName: "id",
+        text: "ID",
+        textAlignment: "left",
+        allowFilter: true,
+        allowSort: true,
+        actionType: "",
+        drawerComponentId: "",
+        url: "",
+        idField: "id",
+        drawerWidth: "",
+      },
+      {
+        name: "name",
+        fieldName: "name",
+        text: "Name",
+        textAlignment: "left",
+        allowFilter: true,
+        allowSort: true,
+        actionType: "",
+        drawerComponentId: "",
+        url: "",
+        idField: "",
+        drawerWidth: "",
+      },
+    ],
+  });*/

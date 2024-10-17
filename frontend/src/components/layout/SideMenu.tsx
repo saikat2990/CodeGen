@@ -54,6 +54,20 @@ const menuItems = [
     //   },
     // ],
   },
+  {
+    title: "List Design",
+    icon: <Settings className="h-6 w-6" />,
+    link: '/list-design',
+    // subItems: [
+    //   {
+    //     title: "Page",
+    //     subItems: [
+    //       // { title: "Page Management", link: "/pages" },
+    //       // { title: "Page Menu", link: "/menus" },
+    //     ],
+    //   },
+    // ],
+  }
 ];
 
 export default function SideMenu(props: { menus: ApplicationMenu[] }) {
