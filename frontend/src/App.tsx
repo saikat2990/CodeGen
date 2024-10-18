@@ -10,6 +10,7 @@ import LocalStorageCRUD from "./lib/local-storage-crud";
 import DynamicPage from "./pages/DynamicPage";
 import ApplicationSettings  from "./pages/ApplicationSettings";
 import ListPageViewDesigner from "./components/general/ListPageViewDesigner";
+import Designer from "./components/general/ListViewEngineDesigner";
 
 
 const App: React.FC = () => {
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path="/menus" element={<ApplicationMenus />} />
           <Route path="/application-settings" element={<ApplicationSettings />} />
           <Route path="/list-design" element={<ListPageViewDesigner />} />
+          <Route path="/demo-page" element={<Designer />} />
           {/* Dynamically added routes */}
           {menus.map((menu: ApplicationMenu, index: number) => {
             return (

@@ -67,6 +67,20 @@ const menuItems = [
     //     ],
     //   },
     // ],
+  },
+  {
+    title: "List Design",
+    icon: <Settings className="h-6 w-6" />,
+    link: '/demo-page',
+    // subItems: [
+    //   {
+    //     title: "Page",
+    //     subItems: [
+    //       // { title: "Page Management", link: "/pages" },
+    //       // { title: "Page Menu", link: "/menus" },
+    //     ],
+    //   },
+    // ],
   }
 ];
 

@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import listPageviewDesignReducer from "./slices/listPageviewDesignSlice";
 
 export const store = configureStore({
   reducer: {
-    // Add your reducers here
+    listPageviewDesign: listPageviewDesignReducer,
+    // Add other reducers here
   },
 });
 
