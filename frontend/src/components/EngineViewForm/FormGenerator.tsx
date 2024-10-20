@@ -19,6 +19,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 export interface ISelectOption {
   //   parentValue?: number | string;
@@ -71,6 +72,8 @@ export default function FormGenerator({
   showSubmitButton = true,
   showResetButton = false,
 }: FormGeneratorProps) {
+  // console.debug({ defaultValues });
+
   // Generate Zod schema based on fields
   const generateSchema = (fields: IField[]) => {
     const schemaMap: Record<string, any> = {};
@@ -132,15 +135,17 @@ export default function FormGenerator({
             control={form.control}
             name={field.name}
             defaultValue={field.initialValue}
-            render={({ field: formField }) => (
-              <FormItem>
-                <FormLabel>{field.label}</FormLabel>
-                <FormControl>
-                  <Input type={field.type} {...formField} {...commonProps} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field: formField }) => {
+              return (
+                <FormItem>
+                  <FormLabel>{field.label}</FormLabel>
+                  <FormControl>
+                    <Input type={field.type} {...formField} {...commonProps} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         );
 
@@ -167,29 +172,33 @@ export default function FormGenerator({
           <FormField
             control={form.control}
             name={field.name}
-            render={({ field: formField }) => (
-              <FormItem>
-                <FormLabel>{field.label}</FormLabel>
-                <Select
-                  onValueChange={formField.onChange}
-                  defaultValue={formField.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder={field.placeholder} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {field.options?.map((option: any) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field: formField }) => {
+              console.debug({ formField });
+
+              return (
+                <FormItem>
+                  <FormLabel>{field.label}</FormLabel>
+                  <Select
+                    onValueChange={formField.onChange}
+                    value={formField.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={field.placeholder} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {field.options?.map((option: any) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         );
 
@@ -197,6 +206,11 @@ export default function FormGenerator({
         return null;
     }
   };
+
+  useEffect(() => {
+    console.debug({ defaultValues });
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
 
   return (
     <Form {...form}>
@@ -208,7 +222,10 @@ export default function FormGenerator({
             }
 
             return (
-              <div key={field.name} className={`col-span-${field.col || 12}`}>
+              <div
+                key={field.name}
+                className={`col-span-${field.colSpan || 12}`}
+              >
                 {getField(field)}
               </div>
             );
