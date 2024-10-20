@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 
 export interface ISelectOption {
-  parentValue?: number | string;
+  //   parentValue?: number | string;
   value?: boolean | number | string;
   label: string;
 }
@@ -49,7 +49,7 @@ export interface IField {
     value: any,
     setValue: (name: string, value: any) => void
   ) => void;
-  col?: number;
+  colSpan?: number;
 }
 
 interface FormGeneratorProps {
@@ -131,6 +131,7 @@ export default function FormGenerator({
           <FormField
             control={form.control}
             name={field.name}
+            defaultValue={field.initialValue}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
@@ -148,6 +149,7 @@ export default function FormGenerator({
           <FormField
             control={form.control}
             name={field.name}
+            defaultValue={field.initialValue}
             render={({ field: formField }) => (
               <FormItem>
                 <FormLabel>{field.label}</FormLabel>
