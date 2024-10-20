@@ -111,42 +111,5 @@ const listPageviewDesignSlice = createSlice({
   },
 });
 
-let d =  {
-  "header": {
-    "title": "List Page",
-    "subTitle": "This is a subtitle",
-    "description": "This is a description"
-  },
-  "actions": [
-    {
-      "buttonName": "New",
-      "actionType": "",
-      "drawerConponentId": "id",
-      "url": "",
-      "functionName": "functionName",
-      "visible": true,
-      "icon": "",
-      "text": "New",
-      "position": "",
-      "showCaption": true
-    }
-  ],
-  "columns": [
-    {
-      "name": "id",
-      "fieldName": "id",
-      "text": "ID",
-      "textAlignment": "left",
-      "allowFilter": true,
-      "allowSort": true,
-      "actionType": "",
-      "drawerComponentId": "",
-      "url": "",
-      "idField": "id",
-      "drawerWidth": ""
-    }
-  ]
-}
-
 export default listPageviewDesignSlice.reducer;
 

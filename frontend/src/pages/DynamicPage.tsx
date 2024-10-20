@@ -10,7 +10,7 @@ interface DynamicPageProps {
 
 const DynamicPage: React.FC<DynamicPageProps> = ({ id }) => {
   const [page, setPage] = useState<ApplicationPage | null>(null);
-  console.debug({ page });
+  // console.debug({ page });
 
   useEffect(() => {
     // Fetch data by ID from local storage

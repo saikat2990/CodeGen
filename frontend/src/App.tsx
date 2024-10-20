@@ -9,7 +9,7 @@ import ApplicationMenus, { ApplicationMenu } from "./pages/ApplicationMenus";
 import LocalStorageCRUD from "./lib/local-storage-crud";
 import DynamicPage from "./pages/DynamicPage";
 import ApplicationSettings  from "./pages/ApplicationSettings";
-import ListPageViewDesigner from "./components/general/ListPageViewDesigner";
+import ListPageViewDesigner from "./pages/ListPageViewDesigner";
 
 
 

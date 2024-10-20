@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../store";
 import {
   postTemplate,
   fetchTemplateById,
   AppComponentViewModel,
   AppComponentModel,
-} from "../../../store/slices/listPageviewDesignSlice";
+} from "../../store/slices/listPageDesignSlice";
 import {
   Table,
   TableBody,
@@ -14,12 +14,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../ui/table";
-import DataTable from "../DataTable";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
-import { Checkbox } from "../../ui/checkbox";
-import { Skeleton } from "../../ui/skeleton";
+} from "../../components/ui/table";
+import DataTable from "../../components/general/DataTable";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Skeleton } from "../../components/ui/skeleton";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   ArrowUpDown,
@@ -36,14 +36,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../ui/select";
+} from "../../components/ui/select";
 
 type Action = {
   buttonName: string;
@@ -108,8 +108,8 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     error,
   } = useSelector((state: RootState) => state.listPageviewDesign);
 
-
-  const [appComponent, setAppComponent] = useState<AppComponentModel>({ id: 0,
+  const [appComponent, setAppComponent] = useState<AppComponentModel>({
+    id: 0,
     moduleId: 0,
     name: "Default Page",
     templateName: "DefaultTemplate",
@@ -117,7 +117,8 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     entryFunc: "getAll",
     pageType: "List",
     pageLayout: "Default",
-    isActive: true});
+    isActive: true,
+  });
 
   const [template, setTemplate] = useState<ListPageLayoutTemplate>({
     id: 0,
@@ -190,7 +191,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     ],
   });
 
-  const [recordid, setRecordId] = useState<number>()
+  const [recordid, setRecordId] = useState<number>();
 
   const [propertyType, setPropertyType] = useState<number>(4);
   const [selectedActionIndex, setSelectedActionIndex] = useState<number>(0);
@@ -199,8 +200,11 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
 
   useEffect(() => {
     if (storeTemplate) {
-      setTemplate(JSON.parse(storeTemplate?.model?.pageLayout) as ListPageLayoutTemplate)
-      setAppComponent(storeTemplate?.model as AppComponentModel)
+      setTemplate(
+        JSON.parse(storeTemplate?.model?.pageLayout) as ListPageLayoutTemplate
+      );
+      setAppComponent(storeTemplate?.model as AppComponentModel);
+      // console.log(JSON.stringify(storeTemplate));
     }
   }, [storeTemplate]);
 
@@ -323,7 +327,6 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
       pageLayout: JSON.stringify(layout),
       isActive: a.isActive,
     };
-    console.log(template, templateToSave);
     dispatch(postTemplate(templateToSave));
   };
 
@@ -336,10 +339,10 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
   }, []);
 
   useEffect(() => {
-    if(recordid){
+    if (recordid) {
       loadTemplate(recordid);
     }
-  }, [recordid])
+  }, [recordid]);
 
   return (
     <div className="w-full flex">

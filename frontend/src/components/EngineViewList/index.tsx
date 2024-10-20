@@ -118,7 +118,7 @@ const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
 
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
@@ -219,7 +219,7 @@ const EngineViewList: React.FC<EngineViewListProps> = ({ pageId }) => {
 
   const handleAction = (action: string, rowData: any) => {
     // Implement action handling logic here
-    console.log(`Action: ${action}`, rowData);
+   // console.log(`Action: ${action}`, rowData);
   };
 
   if (loading) {
