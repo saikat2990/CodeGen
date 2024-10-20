@@ -33,9 +33,9 @@ const DynamicPage: React.FC<DynamicPageProps> = ({ id }) => {
   // Dynamically render component based on pageType
   switch (pageType) {
     case "ListView":
-      return <EngineViewList pageId={page.id} />;
+      // return <EngineViewList pageId={page.id} />;
     case "FormView":
-      return <EngineViewForm />;
+      // return <EngineViewForm />;
     default:
       return <div>Unknown page type</div>;
   }

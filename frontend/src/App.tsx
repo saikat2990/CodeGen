@@ -28,7 +28,7 @@ const App: React.FC = () => {
           <Route path="/pages" element={<ApplicationPages />} />
           <Route path="/menus" element={<ApplicationMenus />} />
           <Route path="/application-settings" element={<ApplicationSettings />} />
-          <Route path="/list-design" element={<ListPageViewDesigner />} />
+          <Route path="/app-url" element={<ListPageViewDesigner />} />
 
           {/* Dynamically added routes */}
           {menus.map((menu: ApplicationMenu, index: number) => {

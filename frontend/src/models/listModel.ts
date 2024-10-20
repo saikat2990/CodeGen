@@ -1,10 +1,10 @@
-interface Header {
+export interface Header {
   title: string;
   subTitle: string;
   description: string;
 }
 
-interface Action {
+export interface Action {
   buttonName: string;
   actionType: string;
   drawerConponentId: string;
@@ -17,7 +17,7 @@ interface Action {
   showCaption: boolean;
 }
 
-interface Column {
+export interface Column {
   name: string;
   fieldName: string;
   text: string;
@@ -30,13 +30,6 @@ interface Column {
   idField: string;
   drawerWidth: string;
 }
-
-interface ListPageDesignConfig {
-  header: Header;
-  actions: Action[];
-  columns: Column[];
-}
-
 
 export interface PageLayout {
   header: Header;
@@ -68,4 +61,12 @@ export interface AppMenu {
   // Define fields for `AppMenu` if they are present in your JSON
   // In this case, the array is empty so we can define it as an empty object or array for now
   [key: string]: any;
+}
+
+
+// AppComponentModel can be extended if we want to flaten the API model
+export interface ListPageLayoutTemplate extends AppComponentModel {
+  header: Header;
+  actions: Action[];
+  columns: Column[];
 }

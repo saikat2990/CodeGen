@@ -7,6 +7,9 @@ import {
 } from "@radix-ui/react-collapsible";
 import { ApplicationMenu } from "@/pages/ApplicationMenus";
 
+// The menu items will be dynamic from API
+// This can be string of array
+
 const menuItems = [
   {
     title: "Dashboard",
@@ -55,9 +58,9 @@ const menuItems = [
     // ],
   },
   {
-    title: "List Design",
+    title: "Application URL", // This will be dynamic,
     icon: <Settings className="h-6 w-6" />,
-    link: '/list-design',
+    link: '/app-url/3', // These are dynamic
     // subItems: [
     //   {
     //     title: "Page",
@@ -68,20 +71,6 @@ const menuItems = [
     //   },
     // ],
   },
-  {
-    title: "List Design",
-    icon: <Settings className="h-6 w-6" />,
-    link: '/demo-page',
-    // subItems: [
-    //   {
-    //     title: "Page",
-    //     subItems: [
-    //       // { title: "Page Management", link: "/pages" },
-    //       // { title: "Page Menu", link: "/menus" },
-    //     ],
-    //   },
-    // ],
-  }
 ];
 
 export default function SideMenu(props: { menus: ApplicationMenu[] }) {

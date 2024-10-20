@@ -1,52 +1,41 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { AppComponentViewModel, AppComponentModel, PageLayout } from "../../models/listModel";
 
-export interface AppComponentViewModel {
-  id: number;
-  model: AppComponentModel;
-  success: boolean;
-  message: string | null;
-}
+// Constants
+const SLICE_NAME = "listPageviewDesign";
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export interface AppComponentModel {
-  id: number;
-  moduleId: number;
-  name: string;
-  templateName: string;
-  serviceName: string;
-  entryFunc: string;
-  pageType: string;
-  pageLayout: string;
-  isActive: boolean;
-}
-
-// Define the initial state
+// State interface
 interface ListPageviewDesignState {
   storeTemplate: AppComponentViewModel | null;
+  pageLayout: PageLayout | null;
   loading: boolean;
   error: string | null;
   tempTemplate: AppComponentViewModel | null;
 }
 
+// Initial state
 const initialState: ListPageviewDesignState = {
   storeTemplate: null,
   loading: false,
+  pageLayout: null,
   error: null,
   tempTemplate: null,
 };
 
-// Type guard function to check if an error is an AxiosError
+// Helper function
 function isAxiosError(error: unknown): error is Error {
   return error instanceof Error && 'isAxiosError' in error;
 }
 
-// Create async thunk for posting the template
+// Async thunks
 export const postTemplate = createAsyncThunk(
-  "listPageviewDesign/postTemplate",
+  `${SLICE_NAME}/postTemplate`,
   async (template: AppComponentModel, { rejectWithValue }) => {
     try {
       const response = await axios.post<AppComponentViewModel>(
-        `${import.meta.env.VITE_BASE_URL}/api/AppComponent/AddOrUpdate`,
+        `${API_BASE_URL}/api/AppComponent/AddOrUpdate`,
         template
       );
       return response.data;
@@ -59,13 +48,12 @@ export const postTemplate = createAsyncThunk(
   }
 );
 
-// Create async thunk for fetching the template by ID
 export const fetchTemplateById = createAsyncThunk(
-  "listPageviewDesign/fetchTemplateById",
+  `${SLICE_NAME}/fetchTemplateById`,
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await axios.get<AppComponentViewModel>(
-        `${import.meta.env.VITE_BASE_URL}/api/AppComponent/GetById/${id}`
+        `${API_BASE_URL}/api/AppComponent/GetById/${id}`
       );
       return response.data;
     } catch (error: unknown) {
@@ -77,11 +65,18 @@ export const fetchTemplateById = createAsyncThunk(
   }
 );
 
-// Create the slice
+// Slice
 const listPageviewDesignSlice = createSlice({
-  name: "listPageviewDesign",
+  name: SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    setTempTemplate: (state, action: PayloadAction<AppComponentViewModel | null>) => {
+      state.tempTemplate = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postTemplate.pending, (state) => {
@@ -103,6 +98,7 @@ const listPageviewDesignSlice = createSlice({
       .addCase(fetchTemplateById.fulfilled, (state, action) => {
         state.loading = false;
         state.storeTemplate = action.payload;
+        state.pageLayout = JSON.parse(action.payload.model.pageLayout);
       })
       .addCase(fetchTemplateById.rejected, (state, action) => {
         state.loading = false;
@@ -111,5 +107,8 @@ const listPageviewDesignSlice = createSlice({
   },
 });
 
-export default listPageviewDesignSlice.reducer;
+// Actions
+export const { setTempTemplate, clearError } = listPageviewDesignSlice.actions;
 
+// Reducer
+export default listPageviewDesignSlice.reducer;

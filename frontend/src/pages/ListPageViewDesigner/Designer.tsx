@@ -4,39 +4,19 @@ import { AppDispatch, RootState } from "../../store";
 import {
   postTemplate,
   fetchTemplateById,
-  AppComponentViewModel,
-  AppComponentModel,
 } from "../../store/slices/listPageDesignSlice";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../components/ui/table";
-import DataTable from "../../components/general/DataTable";
+  AppComponentViewModel,
+  AppComponentModel,
+  ListPageLayoutTemplate,
+  Action,
+  Column,
+  PageLayout
+} from "../../models/listModel";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Checkbox } from "../../components/ui/checkbox";
-import { Skeleton } from "../../components/ui/skeleton";
-import { ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  MoreHorizontal,
-  Edit,
-  Plus,
-  Settings,
-  Save,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
+import { Edit, Plus, Save } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -45,68 +25,26 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 
-type Action = {
-  buttonName: string;
-  actionType: string;
-  drawerConponentId: string;
-  url: string;
-  functionName: string;
-  visible: boolean;
-  icon: string;
-  text: string;
-  position: string;
-  showCaption: boolean;
-};
-
-type Column = {
-  name: string;
-  fieldName: string;
-  text: string;
-  textAlignment: string;
-  allowFilter: boolean;
-  allowSort: boolean;
-  actionType: string;
-  drawerComponentId: string;
-  url: string;
-  idField: string;
-  drawerWidth: string;
-};
-
-interface ListPageLayoutTemplate extends AppComponentModel {
-  header: {
-    title: string;
-    subTitle: string;
-    description: string;
-  };
-  actions: Action[];
-  columns: Column[];
-}
-
 interface ListPageViewDesignerProps {
   template?: ListPageLayoutTemplate;
 }
 
-const createColumnsFromJson = (columnDefs: any[]): ColumnDef<any>[] => {
-  return columnDefs
-    .map((colDef) => {
-      return {
-        accessorKey: colDef.fieldName,
-        header: colDef.text,
-        cell: colDef.text,
-        enableSorting: colDef.enableSorting ?? true,
-        enableHiding: colDef.enableHiding ?? true,
-      };
-    })
-    .filter(Boolean) as ColumnDef<any>[];
-};
-
 const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
-    storeTemplate: storeTemplate,
+    storeTemplate,
+    pageLayout: storeLayout,
     loading,
     error,
   } = useSelector((state: RootState) => state.listPageviewDesign);
+
+  const [pageLayout, setPageLayout] = useState<PageLayout | null>(null);
+  
+  useEffect(() => {
+    if(storeLayout){
+      setPageLayout(storeLayout);
+    }
+  }, [storeLayout])
 
   const [appComponent, setAppComponent] = useState<AppComponentModel>({
     id: 0,
@@ -118,81 +56,10 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     pageType: "List",
     pageLayout: "Default",
     isActive: true,
-  });
-
-  const [template, setTemplate] = useState<ListPageLayoutTemplate>({
-    id: 0,
-    moduleId: 0,
-    name: "Default Page",
-    templateName: "DefaultTemplate",
-    serviceName: "DefaultService",
-    entryFunc: "getAll",
-    pageType: "List",
-    pageLayout: "Default",
-    isActive: true,
-    header: {
-      title: "Default List Page",
-      subTitle: "This is a default subtitle",
-      description: "This is a default description",
-    },
-    actions: [
-      {
-        buttonName: "New",
-        actionType: "",
-        drawerConponentId: "id",
-        url: "",
-        functionName: "functionName",
-        visible: true,
-        icon: "",
-        text: "New",
-        position: "",
-        showCaption: true,
-      },
-      {
-        buttonName: "Delete",
-        actionType: "",
-        drawerConponentId: "id",
-        url: "",
-        functionName: "functionName",
-        visible: true,
-        icon: "",
-        text: "Delete",
-        position: "",
-        showCaption: true,
-      },
-    ],
-    columns: [
-      {
-        name: "id",
-        fieldName: "id",
-        text: "ID",
-        textAlignment: "left",
-        allowFilter: true,
-        allowSort: true,
-        actionType: "",
-        drawerComponentId: "",
-        url: "",
-        idField: "id",
-        drawerWidth: "",
-      },
-      {
-        name: "name",
-        fieldName: "name",
-        text: "Name",
-        textAlignment: "left",
-        allowFilter: true,
-        allowSort: true,
-        actionType: "",
-        drawerComponentId: "",
-        url: "",
-        idField: "",
-        drawerWidth: "",
-      },
-    ],
+    appMenus: [],
   });
 
   const [recordid, setRecordId] = useState<number>();
-
   const [propertyType, setPropertyType] = useState<number>(4);
   const [selectedActionIndex, setSelectedActionIndex] = useState<number>(0);
   const [selectedColumnIndex, setSelectedColumnIndex] = useState<number>(0);
@@ -200,26 +67,18 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
 
   useEffect(() => {
     if (storeTemplate) {
-      setTemplate(
-        JSON.parse(storeTemplate?.model?.pageLayout) as ListPageLayoutTemplate
-      );
-      setAppComponent(storeTemplate?.model as AppComponentModel);
-      // console.log(JSON.stringify(storeTemplate));
+      setAppComponent(storeTemplate.model as AppComponentModel);
     }
   }, [storeTemplate]);
 
-  useEffect(() => {
-    // console.log("Template updated:", template);
-  }, []);
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTemplate((prevTemplate) => ({
-      ...prevTemplate,
+    setPageLayout((prevLayout) => prevLayout ? ({
+      ...prevLayout,
       header: {
-        ...prevTemplate.header,
+        ...prevLayout.header,
         title: e.target.value,
       },
-    }));
+    }) : null);
   };
 
   const updateActionProperty = (
@@ -227,14 +86,14 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     property: keyof Action,
     value: string | boolean
   ) => {
-    setTemplate((prevTemplate) => ({
-      ...prevTemplate,
-      actions: prevTemplate.actions.map((action) =>
+    setPageLayout((prevLayout) => prevLayout ? ({
+      ...prevLayout,
+      actions: prevLayout.actions.map((action) =>
         action.buttonName === buttonName
           ? { ...action, [property]: value }
           : action
       ),
-    }));
+    }) : null);
   };
 
   const updateColumnProperty = (
@@ -242,42 +101,44 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     property: keyof Column,
     value: string | boolean
   ) => {
-    setTemplate((prevTemplate) => ({
-      ...prevTemplate,
-      columns: prevTemplate.columns.map((column) =>
+    setPageLayout((prevLayout) => prevLayout ? ({
+      ...prevLayout,
+      columns: prevLayout.columns.map((column) =>
         column.name === name ? { ...column, [property]: value } : column
       ),
-    }));
+    }) : null);
   };
 
   const addNewAction = () => {
+    if (!pageLayout) return;
     const newAction: Action = {
-      buttonName: `New Action ${template.actions.length + 1}`,
+      buttonName: `New Action ${pageLayout.actions.length + 1}`,
       actionType: "",
       drawerConponentId: "",
       url: "",
       functionName: "",
       visible: true,
       icon: "",
-      text: `New Action ${template.actions.length + 1}`,
+      text: `New Action ${pageLayout.actions.length + 1}`,
       position: "",
       showCaption: true,
     };
 
-    setTemplate((prevTemplate) => ({
-      ...prevTemplate,
-      actions: [...prevTemplate.actions, newAction],
-    }));
+    setPageLayout((prevLayout) => prevLayout ? ({
+      ...prevLayout,
+      actions: [...prevLayout.actions, newAction],
+    }) : null);
 
     setPropertyType(2);
-    setSelectedActionIndex(template.actions.length);
+    setSelectedActionIndex(pageLayout.actions.length);
   };
 
   const addNewColumn = () => {
+    if (!pageLayout) return;
     const newColumn: Column = {
-      name: `column${template.columns.length + 1}`,
-      fieldName: `column${template.columns.length + 1}`,
-      text: `Column ${template.columns.length + 1}`,
+      name: `column${pageLayout.columns.length + 1}`,
+      fieldName: `column${pageLayout.columns.length + 1}`,
+      text: `Column ${pageLayout.columns.length + 1}`,
       textAlignment: "left",
       allowFilter: true,
       allowSort: true,
@@ -288,18 +149,18 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
       drawerWidth: "",
     };
 
-    setTemplate((prevTemplate) => ({
-      ...prevTemplate,
-      columns: [...prevTemplate.columns, newColumn],
-    }));
+    setPageLayout((prevLayout) => prevLayout ? ({
+      ...prevLayout,
+      columns: [...prevLayout.columns, newColumn],
+    }) : null);
 
     setPropertyType(3);
-    setSelectedColumnIndex(template.columns.length);
+    setSelectedColumnIndex(pageLayout.columns.length);
   };
 
   const updateTemplateProperty = (
     property: keyof AppComponentModel,
-    value: string
+    value: string | boolean
   ) => {
     setAppComponent((prevTemplate) => ({
       ...prevTemplate,
@@ -308,24 +169,16 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
   };
 
   const handleSave = () => {
-    let t = { ...template };
-    let a = { ...appComponent };
+    if (!pageLayout) return;
     let layout = {
-      header: t.header,
-      actions: t.actions,
-      columns: t.columns,
+      header: pageLayout.header,
+      actions: pageLayout.actions,
+      columns: pageLayout.columns,
     };
 
     const templateToSave: AppComponentModel = {
-      id: a.id,
-      moduleId: a.moduleId,
-      name: a.name,
-      templateName: a.templateName,
-      serviceName: a.serviceName,
-      entryFunc: a.entryFunc,
-      pageType: a.pageType,
+      ...appComponent,
       pageLayout: JSON.stringify(layout),
-      isActive: a.isActive,
     };
     dispatch(postTemplate(templateToSave));
   };
@@ -344,11 +197,14 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     }
   }, [recordid]);
 
+  if (!pageLayout) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="w-full flex">
       <div className="w-3/4">
         <div className="p-8 sm:pl-96">
-          {/* here */}
           <div>
             <div>Template Settings</div>
             <div className="flex gap-4 p-8">
@@ -433,16 +289,16 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
           <div className="header-cls mb-2 flex items-center justify-between space-y-2">
             <div>
               <h2 className="text-2xl font-bold tracking-tight">
-                {template.header.title}{" "}
+                {pageLayout.header.title}{" "}
                 <Button onClick={() => setPropertyType(1)}>
                   <Edit />
                 </Button>
               </h2>
               <p className="text-muted-foreground">
-                {template.header.subTitle}
+                {pageLayout.header.subTitle}
               </p>
               <p className="text-muted-foreground">
-                {template.header.description}
+                {pageLayout.header.description}
               </p>
             </div>
             <div>
@@ -450,9 +306,6 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
                 <Save className="mr-2 h-4 w-4" />{" "}
                 {loading ? "Saving..." : "Save"}
               </Button>
-              {/* <Button onClick={() => setPropertyType(4)}>
-                <Settings className="mr-2 h-4 w-4" /> Template Settings
-              </Button> */}
             </div>
           </div>
           {error && <p className="text-red-500">{error}</p>}
@@ -461,7 +314,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
           )}
 
           <div className="action-cls flex gap-4">
-            {template?.actions.map((action: Action, index: number) => (
+            {pageLayout.actions.map((action: Action, index: number) => (
               <div key={index}>
                 <Button
                   variant="outline"
@@ -480,7 +333,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
           </div>
 
           <div className="action-cls flex justify-between gap-4">
-            {template?.columns.map((column: Column, index: number) => (
+            {pageLayout.columns.map((column: Column, index: number) => (
               <div key={index}>
                 <label>{column.text}</label>
                 <Button
@@ -499,10 +352,6 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
               <Plus className="mr-2 h-4 w-4" /> Add Column
             </Button>
           </div>
-          {/* <DataTable
-            columns={createColumnsFromJson(template.columns)}
-            data={[]}
-          /> */}
         </div>
       </div>
       <div className="w-1/4">
@@ -512,37 +361,37 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
             <label>Title</label>
             <Input
               id="newColumn"
-              value={template.header.title}
+              value={pageLayout.header.title}
               onChange={handleTitleChange}
               placeholder="Enter title"
             />
             <label>Sub Title</label>
             <Input
               id="newSubtitle"
-              value={template.header.subTitle}
+              value={pageLayout.header.subTitle}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTemplate((prevTemplate) => ({
-                  ...prevTemplate,
+                setPageLayout((prevLayout) => prevLayout ? ({
+                  ...prevLayout,
                   header: {
-                    ...prevTemplate.header,
+                    ...prevLayout.header,
                     subTitle: e.target.value,
                   },
-                }))
+                }) : null)
               }
               placeholder="Enter subtitle"
             />
             <label>Description</label>
             <Input
               id="newDescription"
-              value={template.header.description}
+              value={pageLayout.header.description}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTemplate((prevTemplate) => ({
-                  ...prevTemplate,
+                setPageLayout((prevLayout) => prevLayout ? ({
+                  ...prevLayout,
                   header: {
-                    ...prevTemplate.header,
+                    ...prevLayout.header,
                     description: e.target.value,
                   },
-                }))
+                }) : null)
               }
               placeholder="Enter description"
             />
@@ -552,7 +401,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
           <div>
             <div className="flex flex-col gap-4 p-8">
               <div>Page Action</div>
-              {Object.entries(template.actions[selectedActionIndex]).map(
+              {Object.entries(pageLayout.actions[selectedActionIndex]).map(
                 ([key, value]) => (
                   <div key={key}>
                     <label>{key}</label>
@@ -561,7 +410,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
                         checked={value}
                         onCheckedChange={(checked) =>
                           updateActionProperty(
-                            template.actions[selectedActionIndex].buttonName,
+                            pageLayout.actions[selectedActionIndex].buttonName,
                             key as keyof Action,
                             checked as boolean
                           )
@@ -572,7 +421,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
                         value={value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           updateActionProperty(
-                            template.actions[selectedActionIndex].buttonName,
+                            pageLayout.actions[selectedActionIndex].buttonName,
                             key as keyof Action,
                             e.target.value
                           )
@@ -591,7 +440,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
           <div>
             <div className="flex flex-col gap-4 p-8">
               <div>Table Column</div>
-              {Object.entries(template.columns[selectedColumnIndex]).map(
+              {Object.entries(pageLayout.columns[selectedColumnIndex]).map(
                 ([key, value]) => (
                   <div key={key}>
                     <label>{key}</label>
@@ -600,7 +449,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
                         checked={value}
                         onCheckedChange={(checked) =>
                           updateColumnProperty(
-                            template.columns[selectedColumnIndex].name,
+                            pageLayout.columns[selectedColumnIndex].name,
                             key as keyof Column,
                             checked as boolean
                           )
@@ -611,7 +460,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
                         value={value}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           updateColumnProperty(
-                            template.columns[selectedColumnIndex].name,
+                            pageLayout.columns[selectedColumnIndex].name,
                             key as keyof Column,
                             e.target.value
                           )
