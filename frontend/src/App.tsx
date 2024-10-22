@@ -8,9 +8,9 @@ import ApplicationPages from "./pages/ApplicationPages";
 import ApplicationMenus, { ApplicationMenu } from "./pages/ApplicationMenus";
 import LocalStorageCRUD from "./lib/local-storage-crud";
 import DynamicPage from "./pages/DynamicPage";
-import ApplicationSettings  from "./pages/ApplicationSettings";
+import ApplicationSettings from "./pages/ApplicationSettings";
 import ListPageViewDesigner from "./components/general/ListPageViewDesigner";
-
+import AppComponentPage from "./pages/AppComponent";
 
 const App: React.FC = () => {
   const menus = LocalStorageCRUD.getItems<ApplicationMenu>("application_menus");
@@ -26,8 +26,12 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/pages" element={<ApplicationPages />} />
           <Route path="/menus" element={<ApplicationMenus />} />
-          <Route path="/application-settings" element={<ApplicationSettings />} />
+          <Route
+            path="/application-settings"
+            element={<ApplicationSettings />}
+          />
           <Route path="/list-design" element={<ListPageViewDesigner />} />
+          <Route path="/app-component" element={<AppComponentPage />} />
           {/* Dynamically added routes */}
           {menus.map((menu: ApplicationMenu, index: number) => {
             return (
