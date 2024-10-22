@@ -1,10 +1,65 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppComponentViewModel, AppComponentModel, PageLayout } from "../../models/listModel";
+import { AppComponentFields } from "@/data/class-map";
 
 // Constants
 const SLICE_NAME = "listPageviewDesign";
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+const defaultPageLayout = {
+  id: 0,
+  moduleId: 0,
+  name: "New Component",
+  templateName: "List",
+  serviceName: "ListService",
+  entryFunc: "getAll",
+  pageType: "List",
+  isActive: true,
+  header: {
+    title: "New Component",
+    subTitle: "",
+    description: "",
+  },
+  actions: [
+    {
+      buttonName: "New",
+      actionType: "",
+      drawerConponentId: "id",
+      url: "",
+      functionName: "onActionClick",
+      visible: false,
+      icon: "",
+      text: "New",
+      position: "",
+      showCaption: true,
+    },
+    {
+      buttonName: "Refresh",
+      actionType: "",
+      drawerConponentId: "id",
+      url: "",
+      functionName: "onActionClick",
+      visible: true,
+      icon: "",
+      text: "Refresh",
+      position: "",
+      showCaption: true,
+    },
+    {
+      buttonName: "Delete",
+      actionType: "",
+      drawerConponentId: "id",
+      url: "",
+      functionName: "onActionClick",
+      visible: true,
+      icon: "",
+      text: "Delete",
+      position: "",
+      showCaption: true,
+    },
+  ],
+  columns: [],
+};
 
 // State interface
 interface ListPageviewDesignState {
@@ -13,6 +68,7 @@ interface ListPageviewDesignState {
   loading: boolean;
   error: string | null;
   tempTemplate: AppComponentViewModel | null;
+  defaultPageLayout: PageLayout;
 }
 
 // Initial state
@@ -22,6 +78,7 @@ const initialState: ListPageviewDesignState = {
   pageLayout: null,
   error: null,
   tempTemplate: null,
+  defaultPageLayout: defaultPageLayout,
 };
 
 // Helper function
@@ -98,7 +155,30 @@ const listPageviewDesignSlice = createSlice({
       .addCase(fetchTemplateById.fulfilled, (state, action) => {
         state.loading = false;
         state.storeTemplate = action.payload;
-        state.pageLayout = JSON.parse(action.payload.model.pageLayout);
+        if(!action.payload.model){
+          state.pageLayout = state.defaultPageLayout;
+          AppComponentFields.map((field: any) => {
+
+            console.log(field);
+            state.pageLayout?.columns.push({
+              
+                name: field,
+                fieldName: field,
+                text: field,
+                textAlignment: "left",
+                allowFilter: true,
+                allowSort: true,
+                actionType: "",
+                drawerComponentId: "",
+                url: "",
+                idField: "",
+                drawerWidth: "",
+              
+            })
+          })
+        } else {
+          state.pageLayout = JSON.parse(action.payload.model.pageLayout);
+        }
       })
       .addCase(fetchTemplateById.rejected, (state, action) => {
         state.loading = false;

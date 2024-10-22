@@ -39,7 +39,26 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
   } = useSelector((state: RootState) => state.listPageviewDesign);
 
   const [pageLayout, setPageLayout] = useState<PageLayout | null>(null);
-  
+  const [recordid, setRecordId] = useState<number>();
+  const [propertyType, setPropertyType] = useState<number>(4);
+  const [selectedActionIndex, setSelectedActionIndex] = useState<number>(0);
+  const [selectedColumnIndex, setSelectedColumnIndex] = useState<number>(0);
+  const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+
+  const loadTemplate = (id: number) => {
+    dispatch(fetchTemplateById(id));
+  };
+
+  useEffect(() => {
+    setRecordId(1);
+  }, []);
+
+  useEffect(() => {
+    if (recordid) {
+      loadTemplate(recordid);
+    }
+  }, [recordid]);
+
   useEffect(() => {
     if(storeLayout){
       setPageLayout(storeLayout);
@@ -59,11 +78,7 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
     appMenus: [],
   });
 
-  const [recordid, setRecordId] = useState<number>();
-  const [propertyType, setPropertyType] = useState<number>(4);
-  const [selectedActionIndex, setSelectedActionIndex] = useState<number>(0);
-  const [selectedColumnIndex, setSelectedColumnIndex] = useState<number>(0);
-  const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+
 
   useEffect(() => {
     if (storeTemplate) {
@@ -178,24 +193,13 @@ const ListViewDesignerPage: React.FC<ListPageViewDesignerProps> = () => {
 
     const templateToSave: AppComponentModel = {
       ...appComponent,
+      pageType: 'List',
       pageLayout: JSON.stringify(layout),
     };
     dispatch(postTemplate(templateToSave));
   };
 
-  const loadTemplate = (id: number) => {
-    dispatch(fetchTemplateById(id));
-  };
-
-  useEffect(() => {
-    setRecordId(3);
-  }, []);
-
-  useEffect(() => {
-    if (recordid) {
-      loadTemplate(recordid);
-    }
-  }, [recordid]);
+  
 
   if (!pageLayout) {
     return <div>Loading...</div>;
